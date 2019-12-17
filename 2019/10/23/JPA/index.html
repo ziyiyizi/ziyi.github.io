@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="YI ZI">
   <meta name="keywords" content="">
-  <title>分类 ~ BLOG</title>
+  <title>jpa ~ BLOG</title>
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
   <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
   <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
@@ -31,7 +31,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -112,6 +112,9 @@
             </span>
 
             
+              <br>
+              <p class="mt-3">星期三, 十月 23日 2019, 12:18 中午</p>
+            
           </div>
 
           
@@ -122,22 +125,121 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <h2 id="JPA"><a href="#JPA" class="headerlink" title="JPA"></a>JPA</h2><p>pom</p>
+<pre><code>       &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;mysql&lt;/groupId&gt;
+            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+        &lt;/dependency&gt;</code></pre><p>application.yml</p>
+<ul>
+<li>MySQL 5.6</li>
+</ul>
+<pre><code>spring:
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/dbgirl?characterEncoding=utf8&amp;useSSL=false
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true</code></pre><p>hibernate.hbm2ddl.auto 参数的作用主要用于：自动创建 | 更新 | 验证数据库表结构，有四个值：</p>
+<blockquote>
+<p>create：每次加载 hibernate 时都会删除上一次的生成的表，然后根据 model 类再重新来生成新表，哪怕两次没有任何改变也要这样执行，这就是导致数据库表数据丢失的一个重要原因。</p>
+</blockquote>
+<blockquote>
+<p>create-drop：每次加载 hibernate 时根据 model 类生成表，但是 sessionFactory 一关闭，表就自动删除。</p>
+</blockquote>
+<blockquote>
+<p>update：最常用的属性，第一次加载 hibernate 时根据 model 类会自动建立起表的结构（前提是先建立好数据库），以后加载 hibernate 时根据 model 类自动更新表结构，即使表结构改变了，但表中的行仍然存在，不会删除以前的行。要注意的是当部署到服务器后，表结构是不会被马上建立起来的，是要等应用第一次运行起来后才会。</p>
+</blockquote>
+<blockquote>
+<p>validate：每次加载 hibernate 时，验证创建数据库表结构，只会和数据库中的表进行比较，不会创建新表，但是会插入新值。</p>
+</blockquote>
+<p>添加entity及dao</p>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
                 
-
-<ul class="category-tree-list"><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/java/">java</a><span class="category-tree-list-count">1</span><ul class="category-tree-list-child"><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/java/enum/">enum</a><span class="category-tree-list-count">1</span></li></ul></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spring-boot/">spring boot</a><span class="category-tree-list-count">3</span><ul class="category-tree-list-child"><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spring-boot/exception/">exception</a><span class="category-tree-list-count">1</span></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spring-boot/spring-boot-config/">spring boot config</a><span class="category-tree-list-count">1</span></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spring-boot/swagger/">swagger</a><span class="category-tree-list-count">1</span></li></ul></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spring-cloud/">spring cloud</a><span class="category-tree-list-count">1</span><ul class="category-tree-list-child"><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spring-cloud/spring-cloud-stream/">spring cloud stream</a><span class="category-tree-list-count">1</span></li></ul></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spting-boot/">spting boot</a><span class="category-tree-list-count">5</span><ul class="category-tree-list-child"><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spting-boot/aop/">aop</a><span class="category-tree-list-count">1</span></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spting-boot/devtools/">devtools</a><span class="category-tree-list-count">1</span></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spting-boot/jpa/">jpa</a><span class="category-tree-list-count">1</span></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spting-boot/mongotemplate/">mongotemplate</a><span class="category-tree-list-count">1</span></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spting-boot/mybatis-plus/">mybatis plus</a><span class="category-tree-list-count">1</span></li></ul></li></ul>
-
-
-              </div>
-            </div>
+                  <a class="hover-with-bg" href="/categories/spting%20boot">spting boot</a>
+                  &nbsp;
+                
+                  <a class="hover-with-bg" href="/categories/jpa">jpa</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/spring%20boot">spring boot</a>
+              
+                <a class="hover-with-bg" href="/tags/jpa">jpa</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <script src="https://utteranc.es/client.js"
+          repo="ziyiyizi/ziyiyizi.github.io"
+          issue-term="pathname"
+  
+          label="utterances"
+    
+          theme="github-light"
+          crossorigin="anonymous"
+          async>
+  </script>
+
+
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -191,6 +293,11 @@
   <script src="/js/lazyload.js" ></script>
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
   <script src="/lib/prettify/prettify.min.js" ></script>
   <script>
@@ -206,7 +313,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "分类&nbsp;",
+        "jpa&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

@@ -4,27 +4,286 @@
   
   
   <entry>
-    <title>test</title>
-    <link href="undefined2019/12/17/test/"/>
-    <url>2019/12/17/test/</url>
+    <title>spring cloud stream</title>
+    <link href="undefined2019/12/11/springcloud%20stream/"/>
+    <url>2019/12/11/springcloud%20stream/</url>
     
-    <content type="html"><![CDATA[<h3 id="first"><a href="#first" class="headerlink" title="first"></a>first</h3>]]></content>
+    <content type="html"><![CDATA[<h1 id="spring-cloud-stream"><a href="#spring-cloud-stream" class="headerlink" title="spring cloud stream"></a>spring cloud stream</h1><h6 id="一个构建消息驱动微服务的框架"><a href="#一个构建消息驱动微服务的框架" class="headerlink" title="一个构建消息驱动微服务的框架"></a>一个构建消息驱动微服务的框架</h6><h4 id="springcloud-stream架构"><a href="#springcloud-stream架构" class="headerlink" title="springcloud stream架构"></a>springcloud stream架构</h4><p><img src="https://images2018.cnblogs.com/blog/1202638/201805/1202638-20180528204400011-1996551371.png" srcset="/img/loading.gif" alt=""></p><p>应用程序通过 inputs(相当于消费者consumer，它是从队列中接收消息的) 或者 outputs(相当于生产者producer，它是从队列中发送消息的) 来与 Spring Cloud Stream 中binder 交互，binder 负责与消息中间件交互。</p><p>通道通过指定中间件的Binder实现与外部代理连接。业务开发者不再关注具体消息中间件，只需关注Binder对应用程序提供的抽象概念来使用消息中间件实现业务即可。</p><h3 id="SpringCloud-Stream消息驱动优缺点"><a href="#SpringCloud-Stream消息驱动优缺点" class="headerlink" title="SpringCloud Stream消息驱动优缺点"></a>SpringCloud Stream消息驱动优缺点</h3><h4 id="解耦合"><a href="#解耦合" class="headerlink" title="解耦合"></a>解耦合</h4><p>消息中间件的架构不同。比方说RabbitMQ和Kafka，RabbitMQ有exchange，kafka有Topic，partitions分区，这些中间件的差异性导致我们实际项目开发给我们造成了一定的困扰，我们如果用了两个消息队列的其中一种，后面的业务需求，要往另外一种消息队列进行迁移，这时候很多东西改，因为它跟我们的系统耦合了。这时候springcloud stream给我们提供了一种解耦合的方式。</p><h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><p>集成的mq较少 目前仅有rabbitmq和kafka rocketmq未完全集成</p><h4 id="binder"><a href="#binder" class="headerlink" title="binder"></a>binder</h4><p>通过定义binder作为中间层，实现了应用程序与消息中间件(Middleware)细节之间的隔离。通过向应用程序暴露统一的通道，使得应用程序不需要再考虑各种不同的消息中间件的实现。当需要更换其他消息中间件产品时，需要做的就是修改binder的配置而不需要修改任何应用逻辑。甚至可以任意的改变中间件的类型而不需要修改一行代码。</p><h4 id="Publish-Subscribe"><a href="#Publish-Subscribe" class="headerlink" title="Publish-Subscribe"></a>Publish-Subscribe</h4><p>消息的发布（Publish）和订阅（Subscribe）是事件驱动的经典模式。Spring Cloud Stream 的数据交互也是基于这个思想。生产者把消息通过某个 destination 广播出去。其他的微服务，通过订阅特定 destination 来获取广播的消息来触发业务的进行。</p><p>这种模式，极大的降低了生产者与消费者之间的耦合。即使有新的应用的引入，也不需要破坏当前系统的整体结构。</p><h4 id="Consumer-Groups"><a href="#Consumer-Groups" class="headerlink" title="Consumer Groups"></a>Consumer Groups</h4><p>防止同一个事件被重复消费，只要把这些应用放置于同一个 “group” 中，就能够保证消息只会被一个group其中的一个应用消费一次。</p>]]></content>
     
     
     <categories>
       
-      <category>Hexo</category>
+      <category>spring cloud</category>
       
-      <category>Fluid</category>
+      <category>spring cloud stream</category>
       
     </categories>
     
     
     <tags>
       
-      <tag>Hexo</tag>
+      <tag>spring cloud stream</tag>
       
-      <tag>Fluid</tag>
+      <tag>mq</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>mongotemplate</title>
+    <link href="undefined2019/11/25/mongotemplate/"/>
+    <url>2019/11/25/mongotemplate/</url>
+    
+    <content type="html"><![CDATA[<h4 id="mongotemplate"><a href="#mongotemplate" class="headerlink" title="mongotemplate"></a>mongotemplate</h4><h5 id="pom-xml"><a href="#pom-xml" class="headerlink" title="pom.xml"></a>pom.xml</h5><pre><code>&lt;dependency&gt;            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;            &lt;artifactId&gt;spring-boot-starter-data-mongodb&lt;/artifactId&gt;&lt;/dependency&gt;</code></pre><h5 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h5><p><code>spring.data.mongodb.uri=mongodb://47.103.114.87:27017/label_performance</code></p><h5 id="使用MongoTemplate查询"><a href="#使用MongoTemplate查询" class="headerlink" title="使用MongoTemplate查询"></a>使用MongoTemplate查询</h5><ul><li>单条件</li></ul><p><code>Query query = Query.query(Criteria.where(&quot;id&quot;).is(&quot;1&quot;));</code></p><ul><li>or &amp; and</li></ul><pre><code>Criteria criteria = new Criteria();criteria.orOperator(Criteria.where(&quot;title&quot;).is(&quot;a&quot;),Criteria.where(&quot;name&quot;).is(&quot;b&quot;));criteria.andOperator(Criteria.where(&quot;time&quot;).ge(start),Criteria.where(&quot;time&quot;).is(end));Query query = new Query(criteria);</code></pre><h5 id="一个字段多约束需要andOperator"><a href="#一个字段多约束需要andOperator" class="headerlink" title="一个字段多约束需要andOperator"></a>一个字段多约束需要andOperator</h5><ul><li>sort</li></ul><pre><code>Query query = new Query();Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC,&quot;id&quot;));query.with(sort);</code></pre><h5 id="2-x后是Sort-by"><a href="#2-x后是Sort-by" class="headerlink" title="2.x后是Sort.by"></a>2.x后是Sort.by</h5><ul><li>分页</li></ul><pre><code>Query query = new Query();query.skip(1).limit(3);</code></pre><ul><li>update</li></ul><pre><code>Update update = new Update();update.set(&quot;name&quot;,&quot;a&quot;);update.set(&quot;title&quot;,&quot;b&quot;);UpdateResult wr = mongoTemplate.updateFirst(query, update, collect.class);</code></pre><h5 id="ne为不等于"><a href="#ne为不等于" class="headerlink" title="ne为不等于"></a>ne为不等于</h5><h5 id="not为字段不存在"><a href="#not为字段不存在" class="headerlink" title="not为字段不存在"></a>not为字段不存在</h5><ul><li>正则匹配查询</li></ul><pre><code>query.addCriteria(Criteria.where(&quot;key&quot;).regex(&quot;.*?\\&quot; + value + &quot;.*&quot;)</code></pre><ul><li>分次批量拉取数据 不用分页 因为分页到后期会很慢</li></ul><pre><code>/**     * 获取id后的某一时间段内的size个的任务绩效     * @param id  （mongo中存储的id）     * @param startTime     * @param endTime     * @return     */    public &lt;T extends PerformanceEntity&gt; List&lt;T&gt; getTaskPerformanceList(String id, Date startTime, Date endTime, Class&lt;T&gt; t) {        return getTaskPerformanceList(size, id, startTime, endTime, t);    }    /**     * 获取id后的某一时间段内的size个的标注/质检任务绩效     * @param size     * @return     */    public &lt;T extends PerformanceEntity&gt; List&lt;T&gt; getTaskPerformanceList(int size, String id, Date startTime, Date endTime, Class&lt;T&gt; t) {        Query query = new Query();        Criteria criteria = new Criteria();        criteria.andOperator(Criteria.where(CREATE_TIME).gte(startTime), Criteria.where(CREATE_TIME).lt(endTime));        query.addCriteria(criteria);        ObjectId objectId;        if (StringUtils.isNotBlank(id)) {            objectId = new ObjectId(id);            query.addCriteria(Criteria.where(ID).gt(objectId));        }        query.with(Sort.by(Sort.Direction.ASC, ID));        query.limit(size);        return mongoTemplate.find(query, t);    }</code></pre><h5 id="id第一次传null"><a href="#id第一次传null" class="headerlink" title="id第一次传null"></a>id第一次传null</h5>]]></content>
+    
+    
+    <categories>
+      
+      <category>spting boot</category>
+      
+      <category>mongotemplate</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>spring boot</tag>
+      
+      <tag>mongotemplate</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>mybatis plus</title>
+    <link href="undefined2019/11/25/mybatis-plus/"/>
+    <url>2019/11/25/mybatis-plus/</url>
+    
+    <content type="html"><![CDATA[<h4 id="Mybatis-Plus"><a href="#Mybatis-Plus" class="headerlink" title="Mybatis Plus"></a>Mybatis Plus</h4><h5 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h5><pre><code>&lt;dependency&gt;        &lt;groupId&gt;com.baomidou&lt;/groupId&gt;        &lt;artifactId&gt;mybatis-plus-boot-starter&lt;/artifactId&gt;        &lt;version&gt;3.2.0&lt;/version&gt;&lt;/dependency&gt;</code></pre><h5 id="yml配置文件"><a href="#yml配置文件" class="headerlink" title="yml配置文件"></a>yml配置文件</h5><pre><code>spring.datasource.url=jdbc:mysql://47.103.220.51:3306/label_workflow?allowMultiQueries=truespring.datasource.username=rootspring.datasource.password=Wood!nHo13</code></pre><h5 id="启动类加上MapperScan注解"><a href="#启动类加上MapperScan注解" class="headerlink" title="启动类加上MapperScan注解"></a>启动类加上MapperScan注解</h5><p><code>@MapperScan(&quot;com.baomidou.mybatisplus.samples.quickstart.mapper&quot;)</code></p><h5 id="编写实体类"><a href="#编写实体类" class="headerlink" title="编写实体类"></a>编写实体类</h5><h5 id="编写Mapper"><a href="#编写Mapper" class="headerlink" title="编写Mapper"></a>编写Mapper</h5><pre><code>public interface UserMapper extends BaseMapper&lt;User&gt; {}</code></pre><h5 id="测试类"><a href="#测试类" class="headerlink" title="测试类"></a>测试类</h5><pre><code>@RunWith(SpringRunner.class)@SpringBootTestpublic class SampleTest {    @Autowired    private UserMapper userMapper;    @Test    public void testSelect() {        System.out.println((&quot;----- selectAll method test ------&quot;));        List&lt;User&gt; userList = userMapper.selectList(null);        Assert.assertEquals(5, userList.size());        userList.forEach(System.out::println);    }}</code></pre><h5 id="分页插件-启动类配置"><a href="#分页插件-启动类配置" class="headerlink" title="分页插件 启动类配置"></a>分页插件 启动类配置</h5><pre><code>@Bean    public PaginationInterceptor paginationInterceptor() {        PaginationInterceptor paginationInterceptor = new PaginationInterceptor();        // 设置请求的页面大于最大页后操作， true调回到首页，false 继续请求  默认false        // paginationInterceptor.setOverflow(false);        // 设置最大单页限制数量，默认 500 条，-1 不受限制        // paginationInterceptor.setLimit(500);        return paginationInterceptor;    }</code></pre><h5 id="官方教程"><a href="#官方教程" class="headerlink" title="官方教程"></a>官方教程</h5><p><a href="https://mp.baomidou.com/" target="_blank" rel="noopener">https://mp.baomidou.com/</a></p><h5 id="note"><a href="#note" class="headerlink" title="note"></a>note</h5><ul><li>使用lambdaQueryMapper lambdaUpdateMapper</li><li>selectOne需要手动加上last(‘limit 1’)</li><li>分页从1开始</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>spting boot</category>
+      
+      <category>mybatis plus</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>spring boot</tag>
+      
+      <tag>mybatis plus</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>devtools</title>
+    <link href="undefined2019/11/12/devtools/"/>
+    <url>2019/11/12/devtools/</url>
+    
+    <content type="html"><![CDATA[<h3 id="devtools的使用"><a href="#devtools的使用" class="headerlink" title="devtools的使用"></a>devtools的使用</h3><p>####原理</p><blockquote><p>ide在发现代码有更改之后，重新启动应用，但是速度比手动停止后再启动更快。深层原理是使用了两个ClassLoader，一个Classloader加载那些不会改变的类（第三方Jar包），另一个ClassLoader加载会更改的类，称为restart ClassLoader。这样在有代码更改的时候，原来的restart ClassLoader 被丢弃，重新创建一个restart ClassLoader，由于需要加载的类相比较少，所以实现了较快的重启时间。即devtools会监听classpath下的文件变动，并且会立即重启应用（发生在保存时机）</p></blockquote><h4 id="不生效路径"><a href="#不生效路径" class="headerlink" title="不生效路径"></a>不生效路径</h4><p>默认情况下，/META-INF/maven，/META-INF/resources，/resources，/static，/templates，/public这些文件夹下的文件修改不会使应用重启，但是会重新加载（devtools内嵌了一个LiveReload server，当资源发生改变时，浏览器刷新</p><blockquote><p>可以使用spring.devtools.restart.exclude属性来自定义排除的资源。例如，要仅排除/static，/public可以设置以下属性：<br><code>spring.devtools.restart.exclude=static/**,public/**</code></p></blockquote><h4 id="pom文件引入devtools依赖"><a href="#pom文件引入devtools依赖" class="headerlink" title="pom文件引入devtools依赖"></a>pom文件引入devtools依赖</h4><pre><code>        &lt;dependency&gt;            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;            &lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;            &lt;optional&gt;true&lt;/optional&gt;        &lt;/dependency&gt;</code></pre><h5 id="optional-true-依赖不会传递"><a href="#optional-true-依赖不会传递" class="headerlink" title="optional=true,依赖不会传递"></a>optional=true,依赖不会传递</h5><h4 id="maven插件配置"><a href="#maven插件配置" class="headerlink" title="maven插件配置"></a>maven插件配置</h4><pre><code>            &lt;plugin&gt;                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;                &lt;configuration&gt;                    &lt;fork&gt;true&lt;/fork&gt;                &lt;/configuration&gt;            &lt;/plugin&gt;</code></pre><h4 id="开启自动编译"><a href="#开启自动编译" class="headerlink" title="开启自动编译"></a>开启自动编译</h4><p>设置里compiler勾选Build Project automatically</p><h4 id="开启运行时自动编译"><a href="#开启运行时自动编译" class="headerlink" title="开启运行时自动编译"></a>开启运行时自动编译</h4><p>command+shift+alt+/ 打开registry勾选compiler.automake.allow.when.app.running</p><h4 id="重新启动即配置完成"><a href="#重新启动即配置完成" class="headerlink" title="重新启动即配置完成"></a>重新启动即配置完成</h4><h4 id="更改代码后不需手动重启-build后即自动重启"><a href="#更改代码后不需手动重启-build后即自动重启" class="headerlink" title="更改代码后不需手动重启 build后即自动重启"></a>更改代码后不需手动重启 build后即自动重启</h4><h4 id="禁用"><a href="#禁用" class="headerlink" title="禁用"></a>禁用</h4><p><code>spring.devtools.restart.enabled=false</code></p><h4 id="监听其他路径"><a href="#监听其他路径" class="headerlink" title="监听其他路径"></a>监听其他路径</h4><p><code>spring.devtools.restart.additional-paths=</code></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>spting boot</category>
+      
+      <category>devtools</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>spring boot</tag>
+      
+      <tag>devtools</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>aop</title>
+    <link href="undefined2019/10/25/enum%E4%BC%98%E5%8C%96switch/"/>
+    <url>2019/10/25/enum%E4%BC%98%E5%8C%96switch/</url>
+    
+    <content type="html"><![CDATA[<h1 id="enum优化switch-case"><a href="#enum优化switch-case" class="headerlink" title="enum优化switch case"></a>enum优化switch case</h1><pre><code>public class Outer {    public static void out(String str) {        System.out.println(str);    }    enum Inner {        JACK(1, &quot;jack&quot;) {            @Override            public void handle() {                out(this.getMessage());            }        },        ANNIE(2, &quot;annie&quot;) {            @Override            public void handle() {                out(this.getMessage());            }        };        Integer code;        String message;        Inner(Integer code, String message) {            this.code = code;            this.message = message;        }        public Integer getCode() {            return code;        }        public void setCode(Integer code) {            this.code = code;        }        public String getMessage() {            return message;        }        public void setMessage(String message) {            this.message = message;        }        public abstract void handle();    }    public static void main(String[] args) {        String[] options = new String[] {&quot;JACK&quot;, &quot;ANNIE&quot;};        Arrays.stream(options).forEach((str) -&gt; {            Inner.valueOf(str).handle();        });    }}</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>java</category>
+      
+      <category>enum</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>javase</tag>
+      
+      <tag>enum</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>全局异常</title>
+    <link href="undefined2019/10/23/%E7%BB%9F%E4%B8%80%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/"/>
+    <url>2019/10/23/%E7%BB%9F%E4%B8%80%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/</url>
+    
+    <content type="html"><![CDATA[<h1 id="统一异常处理"><a href="#统一异常处理" class="headerlink" title="统一异常处理"></a>统一异常处理</h1><h4 id="全局异常捕捉"><a href="#全局异常捕捉" class="headerlink" title="全局异常捕捉"></a>全局异常捕捉</h4><pre><code>@ControllerAdvicepublic class ExceptionHandle {    private  final static Logger logger = LoggerFactory.getLogger(ExceptionHandle.class);    @ExceptionHandler(value = Exception.class)    @ResponseBody    public ServiceResult handle(Exception e){        return ServiceResult.failure(100, e.getMessage());    }}</code></pre><h4 id="返回结果封装"><a href="#返回结果封装" class="headerlink" title="返回结果封装"></a>返回结果封装</h4><pre><code>import java.io.Serializable;/** * service层返回对象列表封装 * * @param &lt;T&gt; */public class ServiceResult&lt;T&gt; implements Serializable {    private boolean success = false;    private String code;    private String message;    private T result;    private ServiceResult() {    }    public static &lt;T&gt; ServiceResult&lt;T&gt; success(T result) {        ServiceResult&lt;T&gt; item = new ServiceResult&lt;T&gt;();        item.success = true;        item.result = result;        item.code = &quot;0&quot;;        item.message = &quot;success&quot;;        return item;    }    public static &lt;T&gt; ServiceResult&lt;T&gt; failure(String errorCode, String errorMessage) {        ServiceResult&lt;T&gt; item = new ServiceResult&lt;T&gt;();        item.success = false;        item.code = errorCode;        item.message = errorMessage;        return item;    }    public static &lt;T&gt; ServiceResult&lt;T&gt; failure(String errorCode) {        ServiceResult&lt;T&gt; item = new ServiceResult&lt;T&gt;();        item.success = false;        item.code = errorCode;        item.message = &quot;failure&quot;;        return item;    }    public boolean hasResult() {        return result != null;    }    public boolean isSuccess() {        return success;    }    public T getResult() {        return result;    }    public String getCode() {        return code;    }    public String getMessage() {        return message;    }    @Override    public String toString() {        return &quot;ServiceResult{&quot; +                &quot;success=&quot; + success +                &quot;, code=&#39;&quot; + code + &#39;\&#39;&#39; +                &quot;, message=&#39;&quot; + message + &#39;\&#39;&#39; +                &quot;, result=&quot; + result +                &#39;}&#39;;    }}</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>spring boot</category>
+      
+      <category>exception</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>spring boot</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>aop</title>
+    <link href="undefined2019/10/23/AOP/"/>
+    <url>2019/10/23/AOP/</url>
+    
+    <content type="html"><![CDATA[<h1 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h1><h4 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h4><pre><code>       &lt;dependency&gt;            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;            &lt;artifactId&gt;spring-boot-starter-aop&lt;/artifactId&gt;        &lt;/dependency&gt;</code></pre><h4 id="切面类"><a href="#切面类" class="headerlink" title="切面类"></a>切面类</h4><ul><li>类上加入@Aspect @Component 注解</li><li>使用@Pointcut 定义一个公共的方法，定义切哪个点</li><li>@Before @After @AfterReturning 这三个注解是切的时间点</li><li>使用org.slf4j.Logger 进行日志记录</li></ul><pre><code>import org.aspectj.lang.JoinPoint;import org.aspectj.lang.annotation.*;import org.slf4j.Logger;import org.slf4j.LoggerFactory;import org.springframework.stereotype.Component;import org.springframework.web.context.request.RequestContextHolder;import org.springframework.web.context.request.ServletRequestAttributes;import org.springframework.web.servlet.support.RequestContext;import javax.servlet.http.HttpServletRequest;/** * @Auther: curry * @Date: 2018/6/2 13:45 * @Description: */@Aspect@Componentpublic class HttpAspect {    private  final static Logger logger = LoggerFactory.getLogger(HttpAspect.class);    @Pointcut(&quot;execution( public * com.imooc.controller.GirlController.*(..))&quot;)    public void log(){    }    @Before(&quot;log()&quot;)    public void doBefore(JoinPoint joinPoint){        ServletRequestAttributes attributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();        HttpServletRequest request = attributes.getRequest();        // url        logger.info(&quot;url={}&quot;,request.getRequestURL());        //method        logger.info(&quot;method = {}&quot;,request.getMethod());        //ip        logger.info(&quot;ip = {}&quot;,request.getRemoteAddr());        //类方法        logger.info(&quot;class_method={}&quot;,joinPoint.getSignature().getDeclaringTypeName()+&quot;.&quot;+ joinPoint.getSignature().getName());        //参数        logger.info(&quot;args = {}&quot;,joinPoint.getArgs());    }    @After(&quot;log()&quot;)    public void doAfter(){    }    @AfterReturning(pointcut = &quot;log()&quot;,returning = &quot;object&quot;)    public void doAfterReturning(Object object){        logger.info(&quot;response = {}&quot;,object);    }}</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>spting boot</category>
+      
+      <category>aop</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>spring boot</tag>
+      
+      <tag>aop</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>jpa</title>
+    <link href="undefined2019/10/23/JPA/"/>
+    <url>2019/10/23/JPA/</url>
+    
+    <content type="html"><![CDATA[<h2 id="JPA"><a href="#JPA" class="headerlink" title="JPA"></a>JPA</h2><p>pom</p><pre><code>       &lt;dependency&gt;            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;            &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;        &lt;/dependency&gt;        &lt;dependency&gt;            &lt;groupId&gt;mysql&lt;/groupId&gt;            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;        &lt;/dependency&gt;</code></pre><p>application.yml</p><ul><li>MySQL 5.6</li></ul><pre><code>spring:  profiles:    active: dev  datasource:    driver-class-name: com.mysql.jdbc.Driver    url: jdbc:mysql://127.0.0.1:3306/dbgirl?characterEncoding=utf8&amp;useSSL=false    username: root    password: root  jpa:    hibernate:      ddl-auto: update    show-sql: true</code></pre><p>hibernate.hbm2ddl.auto 参数的作用主要用于：自动创建 | 更新 | 验证数据库表结构，有四个值：</p><blockquote><p>create：每次加载 hibernate 时都会删除上一次的生成的表，然后根据 model 类再重新来生成新表，哪怕两次没有任何改变也要这样执行，这就是导致数据库表数据丢失的一个重要原因。</p></blockquote><blockquote><p>create-drop：每次加载 hibernate 时根据 model 类生成表，但是 sessionFactory 一关闭，表就自动删除。</p></blockquote><blockquote><p>update：最常用的属性，第一次加载 hibernate 时根据 model 类会自动建立起表的结构（前提是先建立好数据库），以后加载 hibernate 时根据 model 类自动更新表结构，即使表结构改变了，但表中的行仍然存在，不会删除以前的行。要注意的是当部署到服务器后，表结构是不会被马上建立起来的，是要等应用第一次运行起来后才会。</p></blockquote><blockquote><p>validate：每次加载 hibernate 时，验证创建数据库表结构，只会和数据库中的表进行比较，不会创建新表，但是会插入新值。</p></blockquote><p>添加entity及dao</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>spting boot</category>
+      
+      <category>jpa</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>spring boot</tag>
+      
+      <tag>jpa</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>多环境配置</title>
+    <link href="undefined2019/10/23/%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"/>
+    <url>2019/10/23/%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
+    
+    <content type="html"><![CDATA[<h1 id="开发环境和生成环境配置不同的问题"><a href="#开发环境和生成环境配置不同的问题" class="headerlink" title="开发环境和生成环境配置不同的问题"></a>开发环境和生成环境配置不同的问题</h1><ul><li><p>复制2个yml文件，分别是application-dev.yml (开发环境) application-prod.yml（生产环境）</p></li><li><p>修改application-prod.yml（生产环境）文件</p></li></ul><pre><code>server:  port: 8088girl:  name: 毛毛  age: 18</code></pre><ul><li>application-dev.yml (开发环境)文件内容</li></ul><pre><code>server:  port: 8099girl:  name: maomao  age: 18</code></pre><ul><li>application.yml文件内容,这个就代表使用dev的配置文件</li></ul><pre><code>spring:  profiles:    active: dev</code></pre><ul><li><p>先执行 mvn install 在执行启动 java -jar xxx.jar –spring.profiles.active=prod</p></li><li><p>此时就是访问的prod 的配置8088，（注意我们配置的application.yml 中用的是dev 这个配置文件，但是我们启动的时候加上后面的参数就自动切换到 prod 文件上）</p></li><li><p>或VM Options里添加 -Denvironment=prod</p></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>spring boot</category>
+      
+      <category>spring boot config</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>spring boot</tag>
+      
+      <tag>config</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>swagger</title>
+    <link href="undefined2019/10/23/%E6%95%B4%E5%90%88swagger/"/>
+    <url>2019/10/23/%E6%95%B4%E5%90%88swagger/</url>
+    
+    <content type="html"><![CDATA[<h2 id="整合swagger"><a href="#整合swagger" class="headerlink" title="整合swagger"></a>整合swagger</h2><p>SwaggerConfig.java</p><pre><code>import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;import org.springframework.context.annotation.Bean;import org.springframework.context.annotation.Configuration;import org.springframework.web.servlet.config.annotation.EnableWebMvc;import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;import springfox.documentation.builders.ApiInfoBuilder;import springfox.documentation.builders.ParameterBuilder;import springfox.documentation.builders.PathSelectors;import springfox.documentation.builders.RequestHandlerSelectors;import springfox.documentation.schema.ModelRef;import springfox.documentation.service.ApiInfo;import springfox.documentation.service.Contact;import springfox.documentation.service.Parameter;import springfox.documentation.spi.DocumentationType;import springfox.documentation.spring.web.plugins.Docket;import springfox.documentation.swagger2.annotations.EnableSwagger2;import java.util.ArrayList;import java.util.List;@Configuration@EnableSwagger2@EnableWebMvc@ConditionalOnExpression(&quot;${enable.swagger:false}&quot;)public class SwaggerConfig extends WebMvcConfigurerAdapter {    @Bean    public Docket createRestApi() {        ParameterBuilder header = new ParameterBuilder();        List&lt;Parameter&gt; pars = new ArrayList&lt;&gt;();        header.name(&quot;X-Token&quot;).description(&quot;user token&quot;)                .modelRef(new ModelRef(&quot;string&quot;)).parameterType(&quot;header&quot;)                //header中的X-Token参数非必填，传空也可以                .required(false).build();        pars.add(header.build());        return new Docket(DocumentationType.SWAGGER_2)                .apiInfo(apiInfo())                .select()                .apis(RequestHandlerSelectors.basePackage(&quot;cn.graviti.label.workshop.controller&quot;))                .paths(PathSelectors.any())                .build()                .globalOperationParameters(pars);    }    private ApiInfo apiInfo() {        return new ApiInfoBuilder()                .title(&quot;workshop Api&quot;)                .description(&quot;标注相关业务api&quot;)                .contact(new Contact(null, null, null))                .version(&quot;v1.0&quot;)                .build();    }}</code></pre><p>application.yml</p><pre><code>enable:  swagger: true</code></pre><p>pom</p><pre><code>&lt;dependency&gt;    &lt;groupId&gt;io.springfox&lt;/groupId&gt;    &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt;    &lt;version&gt;2.9.2&lt;/version&gt;&lt;/dependency&gt;&lt;dependency&gt;    &lt;groupId&gt;io.springfox&lt;/groupId&gt;    &lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt;    &lt;version&gt;2.9.2&lt;/version&gt;&lt;/dependency&gt;</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>spring boot</category>
+      
+      <category>swagger</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>spring boot</tag>
+      
+      <tag>swagger</tag>
       
     </tags>
     

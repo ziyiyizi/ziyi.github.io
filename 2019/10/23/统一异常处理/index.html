@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="YI ZI">
   <meta name="keywords" content="">
-  <title>test ~ BLOG</title>
+  <title>全局异常 ~ BLOG</title>
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
   <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
   <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
@@ -101,7 +101,7 @@
 </nav>
 
     <div class="view intro-2" id="background"
-         style="background: url('/img/post_banner.jpg')no-repeat center center;
+         style="background: url('/img/mybg')no-repeat center center;
            background-size: cover;
            background-attachment: fixed;">
       <div class="full-bg-img">
@@ -113,7 +113,7 @@
 
             
               <br>
-              <p class="mt-3">星期二, 十二月 17日 2019, 4:38 下午</p>
+              <p class="mt-3">星期三, 十月 23日 2019, 1:49 下午</p>
             
           </div>
 
@@ -134,7 +134,89 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto">
           <div class="markdown-body">
-            <h3 id="first"><a href="#first" class="headerlink" title="first"></a>first</h3>
+            <h1 id="统一异常处理"><a href="#统一异常处理" class="headerlink" title="统一异常处理"></a>统一异常处理</h1><h4 id="全局异常捕捉"><a href="#全局异常捕捉" class="headerlink" title="全局异常捕捉"></a>全局异常捕捉</h4><pre><code>@ControllerAdvice
+public class ExceptionHandle {
+    private  final static Logger logger = LoggerFactory.getLogger(ExceptionHandle.class);
+    @ExceptionHandler(value = Exception.class)
+    @ResponseBody
+    public ServiceResult handle(Exception e){
+        return ServiceResult.failure(100, e.getMessage());
+    }
+}</code></pre><h4 id="返回结果封装"><a href="#返回结果封装" class="headerlink" title="返回结果封装"></a>返回结果封装</h4><pre><code>import java.io.Serializable;
+
+/**
+ * service层返回对象列表封装
+ *
+ * @param &lt;T&gt;
+ */
+public class ServiceResult&lt;T&gt; implements Serializable {
+
+    private boolean success = false;
+
+    private String code;
+
+    private String message;
+
+    private T result;
+
+    private ServiceResult() {
+    }
+
+    public static &lt;T&gt; ServiceResult&lt;T&gt; success(T result) {
+        ServiceResult&lt;T&gt; item = new ServiceResult&lt;T&gt;();
+        item.success = true;
+        item.result = result;
+        item.code = &quot;0&quot;;
+        item.message = &quot;success&quot;;
+        return item;
+    }
+
+    public static &lt;T&gt; ServiceResult&lt;T&gt; failure(String errorCode, String errorMessage) {
+        ServiceResult&lt;T&gt; item = new ServiceResult&lt;T&gt;();
+        item.success = false;
+        item.code = errorCode;
+        item.message = errorMessage;
+        return item;
+    }
+
+    public static &lt;T&gt; ServiceResult&lt;T&gt; failure(String errorCode) {
+        ServiceResult&lt;T&gt; item = new ServiceResult&lt;T&gt;();
+        item.success = false;
+        item.code = errorCode;
+        item.message = &quot;failure&quot;;
+        return item;
+    }
+
+    public boolean hasResult() {
+        return result != null;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public T getResult() {
+        return result;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    @Override
+    public String toString() {
+        return &quot;ServiceResult{&quot; +
+                &quot;success=&quot; + success +
+                &quot;, code=&#39;&quot; + code + &#39;\&#39;&#39; +
+                &quot;, message=&#39;&quot; + message + &#39;\&#39;&#39; +
+                &quot;, result=&quot; + result +
+                &#39;}&#39;;
+    }
+}</code></pre>
             <hr>
           </div>
           <br>
@@ -143,10 +225,10 @@
               <p>
                 <i class="iconfont icon-inbox"></i>
                 
-                  <a class="hover-with-bg" href="/categories/Hexo">Hexo</a>
+                  <a class="hover-with-bg" href="/categories/spring%20boot">spring boot</a>
                   &nbsp;
                 
-                  <a class="hover-with-bg" href="/categories/Fluid">Fluid</a>
+                  <a class="hover-with-bg" href="/categories/exception">exception</a>
                   &nbsp;
                 
               </p>
@@ -154,9 +236,7 @@
             <p>
               <i class="iconfont icon-tag"></i>
               
-                <a class="hover-with-bg" href="/tags/Hexo">Hexo</a>
-              
-                <a class="hover-with-bg" href="/tags/Fluid">Fluid</a>
+                <a class="hover-with-bg" href="/tags/spring%20boot">spring boot</a>
               
             </p>
             
@@ -276,7 +356,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "test&nbsp;",
+        "全局异常&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

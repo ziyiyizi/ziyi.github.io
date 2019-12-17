@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="YI ZI">
   <meta name="keywords" content="">
-  <title>分类 ~ BLOG</title>
+  <title>mongotemplate ~ BLOG</title>
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
   <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
   <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
@@ -31,7 +31,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -112,6 +112,9 @@
             </span>
 
             
+              <br>
+              <p class="mt-3">星期一, 十一月 25日 2019, 5:03 下午</p>
+            
           </div>
 
           
@@ -122,22 +125,154 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <h4 id="mongotemplate"><a href="#mongotemplate" class="headerlink" title="mongotemplate"></a>mongotemplate</h4><h5 id="pom-xml"><a href="#pom-xml" class="headerlink" title="pom.xml"></a>pom.xml</h5><pre><code>&lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-data-mongodb&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre><h5 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h5><p><code>spring.data.mongodb.uri=mongodb://47.103.114.87:27017/label_performance</code></p>
+<h5 id="使用MongoTemplate查询"><a href="#使用MongoTemplate查询" class="headerlink" title="使用MongoTemplate查询"></a>使用MongoTemplate查询</h5><ul>
+<li>单条件</li>
+</ul>
+<p><code>Query query = Query.query(Criteria.where(&quot;id&quot;).is(&quot;1&quot;));</code></p>
+<ul>
+<li>or &amp; and</li>
+</ul>
+<pre><code>Criteria criteria = new Criteria();
+
+criteria.orOperator(
+Criteria.where(&quot;title&quot;).is(&quot;a&quot;),
+Criteria.where(&quot;name&quot;).is(&quot;b&quot;));
+
+criteria.andOperator(
+Criteria.where(&quot;time&quot;).ge(start),
+Criteria.where(&quot;time&quot;).is(end));
+Query query = new Query(criteria);</code></pre><h5 id="一个字段多约束需要andOperator"><a href="#一个字段多约束需要andOperator" class="headerlink" title="一个字段多约束需要andOperator"></a>一个字段多约束需要andOperator</h5><ul>
+<li>sort</li>
+</ul>
+<pre><code>Query query = new Query();
+Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC,&quot;id&quot;));
+query.with(sort);</code></pre><h5 id="2-x后是Sort-by"><a href="#2-x后是Sort-by" class="headerlink" title="2.x后是Sort.by"></a>2.x后是Sort.by</h5><ul>
+<li>分页</li>
+</ul>
+<pre><code>Query query = new Query();
+query.skip(1).limit(3);</code></pre><ul>
+<li>update</li>
+</ul>
+<pre><code>Update update = new Update();
+update.set(&quot;name&quot;,&quot;a&quot;);
+update.set(&quot;title&quot;,&quot;b&quot;);
+UpdateResult wr = mongoTemplate.updateFirst(query, update, collect.class);</code></pre><h5 id="ne为不等于"><a href="#ne为不等于" class="headerlink" title="ne为不等于"></a>ne为不等于</h5><h5 id="not为字段不存在"><a href="#not为字段不存在" class="headerlink" title="not为字段不存在"></a>not为字段不存在</h5><ul>
+<li>正则匹配查询</li>
+</ul>
+<pre><code>query.addCriteria(Criteria.where(&quot;key&quot;).regex(&quot;.*?\\&quot; + value + &quot;.*&quot;)</code></pre><ul>
+<li>分次批量拉取数据 不用分页 因为分页到后期会很慢</li>
+</ul>
+<pre><code>/**
+     * 获取id后的某一时间段内的size个的任务绩效
+     * @param id  （mongo中存储的id）
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    public &lt;T extends PerformanceEntity&gt; List&lt;T&gt; getTaskPerformanceList(String id, Date startTime, Date endTime, Class&lt;T&gt; t) {
+        return getTaskPerformanceList(size, id, startTime, endTime, t);
+    }
+
+    /**
+     * 获取id后的某一时间段内的size个的标注/质检任务绩效
+     * @param size
+     * @return
+     */
+    public &lt;T extends PerformanceEntity&gt; List&lt;T&gt; getTaskPerformanceList(int size, String id, Date startTime, Date endTime, Class&lt;T&gt; t) {
+        Query query = new Query();
+        Criteria criteria = new Criteria();
+        criteria.andOperator(Criteria.where(CREATE_TIME).gte(startTime), Criteria.where(CREATE_TIME).lt(endTime));
+        query.addCriteria(criteria);
+        ObjectId objectId;
+        if (StringUtils.isNotBlank(id)) {
+            objectId = new ObjectId(id);
+            query.addCriteria(Criteria.where(ID).gt(objectId));
+        }
+        query.with(Sort.by(Sort.Direction.ASC, ID));
+        query.limit(size);
+        return mongoTemplate.find(query, t);
+    }</code></pre><h5 id="id第一次传null"><a href="#id第一次传null" class="headerlink" title="id第一次传null"></a>id第一次传null</h5>
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
                 
-
-<ul class="category-tree-list"><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/java/">java</a><span class="category-tree-list-count">1</span><ul class="category-tree-list-child"><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/java/enum/">enum</a><span class="category-tree-list-count">1</span></li></ul></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spring-boot/">spring boot</a><span class="category-tree-list-count">3</span><ul class="category-tree-list-child"><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spring-boot/exception/">exception</a><span class="category-tree-list-count">1</span></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spring-boot/spring-boot-config/">spring boot config</a><span class="category-tree-list-count">1</span></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spring-boot/swagger/">swagger</a><span class="category-tree-list-count">1</span></li></ul></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spring-cloud/">spring cloud</a><span class="category-tree-list-count">1</span><ul class="category-tree-list-child"><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spring-cloud/spring-cloud-stream/">spring cloud stream</a><span class="category-tree-list-count">1</span></li></ul></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spting-boot/">spting boot</a><span class="category-tree-list-count">5</span><ul class="category-tree-list-child"><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spting-boot/aop/">aop</a><span class="category-tree-list-count">1</span></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spting-boot/devtools/">devtools</a><span class="category-tree-list-count">1</span></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spting-boot/jpa/">jpa</a><span class="category-tree-list-count">1</span></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spting-boot/mongotemplate/">mongotemplate</a><span class="category-tree-list-count">1</span></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spting-boot/mybatis-plus/">mybatis plus</a><span class="category-tree-list-count">1</span></li></ul></li></ul>
-
-
-              </div>
-            </div>
+                  <a class="hover-with-bg" href="/categories/spting%20boot">spting boot</a>
+                  &nbsp;
+                
+                  <a class="hover-with-bg" href="/categories/mongotemplate">mongotemplate</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/spring%20boot">spring boot</a>
+              
+                <a class="hover-with-bg" href="/tags/mongotemplate">mongotemplate</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <script src="https://utteranc.es/client.js"
+          repo="ziyiyizi/ziyiyizi.github.io"
+          issue-term="pathname"
+  
+          label="utterances"
+    
+          theme="github-light"
+          crossorigin="anonymous"
+          async>
+  </script>
+
+
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -191,6 +326,11 @@
   <script src="/js/lazyload.js" ></script>
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
   <script src="/lib/prettify/prettify.min.js" ></script>
   <script>
@@ -206,7 +346,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "分类&nbsp;",
+        "mongotemplate&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

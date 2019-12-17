@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="YI ZI">
   <meta name="keywords" content="">
-  <title>分类 ~ BLOG</title>
+  <title>swagger ~ BLOG</title>
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
   <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
   <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
@@ -31,7 +31,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -112,6 +112,9 @@
             </span>
 
             
+              <br>
+              <p class="mt-3">星期三, 十月 23日 2019, 11:25 上午</p>
+            
           </div>
 
           
@@ -122,22 +125,149 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <h2 id="整合swagger"><a href="#整合swagger" class="headerlink" title="整合swagger"></a>整合swagger</h2><p>SwaggerConfig.java</p>
+<pre><code>import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.ParameterBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.schema.ModelRef;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
+import springfox.documentation.service.Parameter;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Configuration
+@EnableSwagger2
+@EnableWebMvc
+@ConditionalOnExpression(&quot;${enable.swagger:false}&quot;)
+public class SwaggerConfig extends WebMvcConfigurerAdapter {
+
+    @Bean
+    public Docket createRestApi() {
+        ParameterBuilder header = new ParameterBuilder();
+        List&lt;Parameter&gt; pars = new ArrayList&lt;&gt;();
+        header.name(&quot;X-Token&quot;).description(&quot;user token&quot;)
+                .modelRef(new ModelRef(&quot;string&quot;)).parameterType(&quot;header&quot;)
+                //header中的X-Token参数非必填，传空也可以
+                .required(false).build();
+        pars.add(header.build());
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage(&quot;cn.graviti.label.workshop.controller&quot;))
+                .paths(PathSelectors.any())
+                .build()
+                .globalOperationParameters(pars);
+    }
+
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title(&quot;workshop Api&quot;)
+                .description(&quot;标注相关业务api&quot;)
+                .contact(new Contact(null, null, null))
+                .version(&quot;v1.0&quot;)
+                .build();
+    }
+}</code></pre><p>application.yml</p>
+<pre><code>enable:
+  swagger: true</code></pre><p>pom</p>
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;io.springfox&lt;/groupId&gt;
+    &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt;
+    &lt;version&gt;2.9.2&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;io.springfox&lt;/groupId&gt;
+    &lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt;
+    &lt;version&gt;2.9.2&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
                 
-
-<ul class="category-tree-list"><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/java/">java</a><span class="category-tree-list-count">1</span><ul class="category-tree-list-child"><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/java/enum/">enum</a><span class="category-tree-list-count">1</span></li></ul></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spring-boot/">spring boot</a><span class="category-tree-list-count">3</span><ul class="category-tree-list-child"><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spring-boot/exception/">exception</a><span class="category-tree-list-count">1</span></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spring-boot/spring-boot-config/">spring boot config</a><span class="category-tree-list-count">1</span></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spring-boot/swagger/">swagger</a><span class="category-tree-list-count">1</span></li></ul></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spring-cloud/">spring cloud</a><span class="category-tree-list-count">1</span><ul class="category-tree-list-child"><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spring-cloud/spring-cloud-stream/">spring cloud stream</a><span class="category-tree-list-count">1</span></li></ul></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spting-boot/">spting boot</a><span class="category-tree-list-count">5</span><ul class="category-tree-list-child"><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spting-boot/aop/">aop</a><span class="category-tree-list-count">1</span></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spting-boot/devtools/">devtools</a><span class="category-tree-list-count">1</span></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spting-boot/jpa/">jpa</a><span class="category-tree-list-count">1</span></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spting-boot/mongotemplate/">mongotemplate</a><span class="category-tree-list-count">1</span></li><li class="category-tree-list-item"><a class="category-tree-list-link" href="/categories/spting-boot/mybatis-plus/">mybatis plus</a><span class="category-tree-list-count">1</span></li></ul></li></ul>
-
-
-              </div>
-            </div>
+                  <a class="hover-with-bg" href="/categories/spring%20boot">spring boot</a>
+                  &nbsp;
+                
+                  <a class="hover-with-bg" href="/categories/swagger">swagger</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/spring%20boot">spring boot</a>
+              
+                <a class="hover-with-bg" href="/tags/swagger">swagger</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <script src="https://utteranc.es/client.js"
+          repo="ziyiyizi/ziyiyizi.github.io"
+          issue-term="pathname"
+  
+          label="utterances"
+    
+          theme="github-light"
+          crossorigin="anonymous"
+          async>
+  </script>
+
+
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -191,6 +321,11 @@
   <script src="/js/lazyload.js" ></script>
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
   <script src="/lib/prettify/prettify.min.js" ></script>
   <script>
@@ -206,7 +341,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "分类&nbsp;",
+        "swagger&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
