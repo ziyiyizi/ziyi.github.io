@@ -135,27 +135,7 @@
         <div class="post-content mx-auto">
           <div class="markdown-body">
             <h2 id="整合swagger"><a href="#整合swagger" class="headerlink" title="整合swagger"></a>整合swagger</h2><p>SwaggerConfig.java</p>
-<pre><code>import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.ParameterBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.schema.ModelRef;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.service.Parameter;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-import java.util.ArrayList;
-import java.util.List;
-
-@Configuration
+<pre><code>@Configuration
 @EnableSwagger2
 @EnableWebMvc
 @ConditionalOnExpression(&quot;${enable.swagger:false}&quot;)
@@ -165,15 +145,16 @@ public class SwaggerConfig extends WebMvcConfigurerAdapter {
     public Docket createRestApi() {
         ParameterBuilder header = new ParameterBuilder();
         List&lt;Parameter&gt; pars = new ArrayList&lt;&gt;();
-        header.name(&quot;X-Token&quot;).description(&quot;user token&quot;)
-                .modelRef(new ModelRef(&quot;string&quot;)).parameterType(&quot;header&quot;)
-                //header中的X-Token参数非必填，传空也可以
+        header.name(&quot;X-Token&quot;)
+                .description(&quot;user token&quot;)
+                .modelRef(new ModelRef(&quot;string&quot;))
+                .parameterType(&quot;header&quot;)
                 .required(false).build();
         pars.add(header.build());
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage(&quot;cn.graviti.label.workshop.controller&quot;))
+                .apis(RequestHandlerSelectors.basePackage(&quot;com.javaee.artastic.Artastic.controller&quot;))
                 .paths(PathSelectors.any())
                 .build()
                 .globalOperationParameters(pars);
@@ -181,15 +162,25 @@ public class SwaggerConfig extends WebMvcConfigurerAdapter {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title(&quot;workshop Api&quot;)
-                .description(&quot;标注相关业务api&quot;)
+                .title(&quot;artastic Apis&quot;)
+                .description(&quot;apis in artastic service&quot;)
                 .contact(new Contact(null, null, null))
-                .version(&quot;v1.0&quot;)
+                .version(&quot;v1&quot;)
                 .build();
     }
-}</code></pre><p>application.yml</p>
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler(&quot;swagger-ui.html&quot;)
+                .addResourceLocations(&quot;classpath:/META-INF/resources/&quot;);
+
+        registry.addResourceHandler(&quot;/webjars/**&quot;)
+                .addResourceLocations(&quot;classpath:/META-INF/resources/webjars/&quot;);
+    }
+
+}</code></pre><p>application.yml需加上如下配置表示启用swagger</p>
 <pre><code>enable:
-  swagger: true</code></pre><p>pom</p>
+  swagger: true</code></pre><p>pom依赖</p>
 <pre><code>&lt;dependency&gt;
     &lt;groupId&gt;io.springfox&lt;/groupId&gt;
     &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt;

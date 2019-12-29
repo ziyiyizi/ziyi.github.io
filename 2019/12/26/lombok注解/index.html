@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="YI ZI">
   <meta name="keywords" content="">
-  <title>全局异常 ~ BLOG</title>
+  <title>lombok注解 ~ BLOG</title>
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
   <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
   <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
@@ -113,7 +113,7 @@
 
             
               <br>
-              <p class="mt-3">星期三, 十月 23日 2019, 1:49 下午</p>
+              <p class="mt-3">星期四, 十二月 26日 2019, 11:32 晚上</p>
             
           </div>
 
@@ -134,76 +134,42 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto">
           <div class="markdown-body">
-            <h1 id="统一异常处理"><a href="#统一异常处理" class="headerlink" title="统一异常处理"></a>统一异常处理</h1><h4 id="全局异常捕捉"><a href="#全局异常捕捉" class="headerlink" title="全局异常捕捉"></a>全局异常捕捉</h4><pre><code>@ControllerAdvice
-@RestController
-public class AllExceptionHandler {
-
-    /**
-     * 处理所有其它异常
-     */
-    @ExceptionHandler(Exception.class)
-    public Result handleOtherException(Exception e) {
-        String message = &quot;[handleOtherException] &quot; + ExceptionUtil.exception2Str(e);
-        return Result.fail(ResultEnum.serverError, message);
-    }
-
-    /**
-     * 处理noHandler异常
-     */
-    @ExceptionHandler(NoHandlerFoundException.class)
-    public Result handleNoHandlerFoundException() {
-        return Result.fail(ResultEnum.handlerNotExist);
-    }
-
-    @ExceptionHandler(ServiceException.class)
-    public Result handleServiceException(ServiceException e) {
-        return Result.fail(e.getResultEnum(), e.getExceptionMessage());
-    }
-
-}
-</code></pre><h4 id="返回结果封装"><a href="#返回结果封装" class="headerlink" title="返回结果封装"></a>返回结果封装</h4><pre><code>@Data
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class Result&lt;T&gt; {
-
-    @JSONField(ordinal = 10)
-    private Boolean success;
-
-    @JSONField(ordinal = 20)
-    private String code;
-
-    @JSONField(ordinal = 30)
-    private String message;
-
-    @JSONField(ordinal = 40)
-    private T data;
-
-    public static Result fail(ResultEnum resultEnum) {
-        Result result = new Result();
-        result.success = resultEnum.getSuccess();
-        result.code = resultEnum.getCode();
-        result.message = resultEnum.getMessage();
-        result.data = null;
-        return result;
-    }
-
-    public static Result fail(ResultEnum resultEnum, String message) {
-        Result result = fail(resultEnum);
-        if (StringUtils.isNotBlank(message)) {
-            result.message = message;
-        }
-        return result;
-    }
-
-    public static &lt;T&gt; Result success(T data) {
-        Result result = new Result();
-        result.setSuccess(ResultEnum.doSuccess.getSuccess());
-        result.setCode(ResultEnum.doSuccess.getCode());
-        result.setMessage(ResultEnum.doSuccess.getMessage());
-        result.data = data;
-        return result;
-    }
-
-}</code></pre>
+            <h4 id="常用的lombok注解"><a href="#常用的lombok注解" class="headerlink" title="常用的lombok注解"></a>常用的lombok注解</h4><ul>
+<li>@Data</li>
+</ul>
+<blockquote>
+<p>包含了@ToString @EqualsAndHashCode @Getter @Setter<br>@ToString等可使用callSuper=true来引入父类属性 用exclude来排除属性</p>
+</blockquote>
+<ul>
+<li><p>@Value</p>
+<blockquote>
+<p>跟@Data差不多 但所有属性会为final</p>
+</blockquote>
+</li>
+<li><p>@NoArgsConstructor</p>
+<blockquote>
+<p>无参构造器 可用access = AccessLevel.PRIVATE来标识这是个私有构造器</p>
+</blockquote>
+</li>
+<li><p>@AllArgsConstructor</p>
+</li>
+<li><p>@Accessors(chain = true)</p>
+<blockquote>
+<p>对象链式构造</p>
+</blockquote>
+</li>
+<li><p>@Builder</p>
+</li>
+<li><p>@Slf4J</p>
+</li>
+</ul>
+<h5 id="idea使用lombok"><a href="#idea使用lombok" class="headerlink" title="idea使用lombok"></a>idea使用lombok</h5><p>plugins 安装lombok插件</p>
+<h5 id="pom引入依赖"><a href="#pom引入依赖" class="headerlink" title="pom引入依赖"></a>pom引入依赖</h5><pre><code>&lt;dependency&gt;
+        &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+        &lt;artifactId&gt;lombok&lt;/artifactId&gt;
+        &lt;version&gt;1.18.10&lt;/version&gt;
+        &lt;scope&gt;provided&lt;/scope&gt;
+      &lt;/dependency&gt;</code></pre>
             <hr>
           </div>
           <br>
@@ -215,7 +181,7 @@ public final class Result&lt;T&gt; {
                   <a class="hover-with-bg" href="/categories/spring%20boot">spring boot</a>
                   &nbsp;
                 
-                  <a class="hover-with-bg" href="/categories/exception">exception</a>
+                  <a class="hover-with-bg" href="/categories/spring%20lombok">spring lombok</a>
                   &nbsp;
                 
               </p>
@@ -224,6 +190,8 @@ public final class Result&lt;T&gt; {
               <i class="iconfont icon-tag"></i>
               
                 <a class="hover-with-bg" href="/tags/spring%20boot">spring boot</a>
+              
+                <a class="hover-with-bg" href="/tags/lombok">lombok</a>
               
             </p>
             
@@ -343,7 +311,7 @@ public final class Result&lt;T&gt; {
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "全局异常&nbsp;",
+        "lombok注解&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

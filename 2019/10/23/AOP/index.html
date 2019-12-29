@@ -138,34 +138,16 @@
             &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
             &lt;artifactId&gt;spring-boot-starter-aop&lt;/artifactId&gt;
         &lt;/dependency&gt;</code></pre><h4 id="切面类"><a href="#切面类" class="headerlink" title="切面类"></a>切面类</h4><ul>
-<li>类上加入@Aspect @Component 注解</li>
+<li>类上加入@Aspect 注解</li>
 <li>使用@Pointcut 定义一个公共的方法，定义切哪个点</li>
 <li>@Before @After @AfterReturning 这三个注解是切的时间点</li>
-<li>使用org.slf4j.Logger 进行日志记录</li>
+<li>使用@Slf4J 进行日志记录</li>
 </ul>
-<pre><code>import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.support.RequestContext;
-
-import javax.servlet.http.HttpServletRequest;
-
-/**
- * @Auther: curry
- * @Date: 2018/6/2 13:45
- * @Description:
- */
-@Aspect
+<pre><code>@Aspect
+@Slf4J
 @Component
 public class HttpAspect {
-
-    private  final static Logger logger = LoggerFactory.getLogger(HttpAspect.class);
-
-    @Pointcut(&quot;execution( public * com.imooc.controller.GirlController.*(..))&quot;)
+    @Pointcut(&quot;execution(com.javaee.artastic.Artastic.controller.TestController.*(..))&quot;)
     public void log(){
 
     }
@@ -174,17 +156,11 @@ public class HttpAspect {
     public void doBefore(JoinPoint joinPoint){
         ServletRequestAttributes attributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
-        // url
-        logger.info(&quot;url={}&quot;,request.getRequestURL());
-        //method
-        logger.info(&quot;method = {}&quot;,request.getMethod());
-        //ip
-        logger.info(&quot;ip = {}&quot;,request.getRemoteAddr());
-        //类方法
-        logger.info(&quot;class_method={}&quot;,joinPoint.getSignature().getDeclaringTypeName()+&quot;.&quot;+ joinPoint.getSignature().getName());
-        //参数
-        logger.info(&quot;args = {}&quot;,joinPoint.getArgs());
-
+        logg.info(&quot;url={}&quot;,request.getRequestURL());
+        logg.info(&quot;method = {}&quot;,request.getMethod());
+        logg.info(&quot;ip = {}&quot;,request.getRemoteAddr());
+        logg.info(&quot;class_method={}&quot;,joinPoint.getSignature().getDeclaringTypeName()+&quot;.&quot;+ joinPoint.getSignature().getName());
+        logg.info(&quot;args = {}&quot;,joinPoint.getArgs());
     }
 
 
@@ -195,7 +171,58 @@ public class HttpAspect {
 
     @AfterReturning(pointcut = &quot;log()&quot;,returning = &quot;object&quot;)
     public void doAfterReturning(Object object){
-        logger.info(&quot;response = {}&quot;,object);
+        logg.info(&quot;response = {}&quot;,object);
+    }
+}</code></pre><pre><code>@Aspect
+public class GetLoginUserAspect {
+
+    @Autowired
+    private TokenManagerService tokenManagerService;
+    @Autowired
+    private HttpServletRequest request;
+
+    private static Set&lt;String&gt; noTokenMethod;
+    private static Set&lt;String&gt; ignoreControllers;
+
+    static {
+        noTokenMethod = new HashSet&lt;&gt;();
+        noTokenMethod.add(&quot;login&quot;);
+        noTokenMethod.add(&quot;health&quot;);
+
+        ignoreControllers = new HashSet&lt;&gt;();
+        ignoreControllers.add(&quot;com.javaee.artastic.Artastic.controller.TestController&quot;);
+    }
+
+    @Around(&quot;execution(* com.javaee.artastic.Artastic.controller.*.*(..)))&quot;)
+    public Object advice(ProceedingJoinPoint joinPoint) throws Throwable {
+        String declaringTypeName = joinPoint.getSignature().getDeclaringTypeName();
+        if (ignoreControllers.contains(declaringTypeName)) {
+            return joinPoint.proceed();
+        }
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        if (noTokenMethod.contains(signature.getMethod().getName())) {
+            return joinPoint.proceed();
+        }
+        String token = StringUtils.getToken(request);
+        UserVo userVo = tokenManagerService.getUserVoByToken(token);
+        request.setAttribute(ArtasticConst.LOGIN_USER, userVo);
+        return joinPoint.proceed();
+    }
+
+}</code></pre><ul>
+<li>在启动类注入</li>
+</ul>
+<pre><code>@SpringBootApplication
+public class App extends SpringBootServletInitializer {
+
+    public static void main( String[] args )
+    {
+        SpringApplication.run(App.class, args);
+    }
+
+    @Bean
+    public GetLoginUserAspect setAutoUserAspect() {
+        return new GetLoginUserAspect();
     }
 }</code></pre>
             <hr>

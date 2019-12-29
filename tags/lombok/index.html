@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="YI ZI">
   <meta name="keywords" content="">
-  <title>全局异常 ~ BLOG</title>
+  <title>标签 - lombok ~ BLOG</title>
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
   <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
   <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
@@ -31,7 +31,7 @@
 
 
 <body>
-  <header style="height: 70vh;">
+  <header style="height: 80vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -112,9 +112,6 @@
             </span>
 
             
-              <br>
-              <p class="mt-3">星期三, 十月 23日 2019, 1:49 下午</p>
-            
           </div>
 
           
@@ -125,151 +122,35 @@
 
   <main>
     
+      <div class="container nopadding-md">
+        <div class="py-5 z-depth-3" id="board">
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+<div class="list-group">
+  <p class="h4">共计 1 篇文章</p>
+  <hr>
+  
+    
       
+      <p class="h5">2019</p>
+    
+    <a href="/2019/12/26/lombok%E6%B3%A8%E8%A7%A3/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">lombok注解</span>
+      <span style="float: right;">12-26</span>
+    </a>
+  
+</div>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-md">
-      <div class="py-5 z-depth-3" id="board">
-        <div class="post-content mx-auto">
-          <div class="markdown-body">
-            <h1 id="统一异常处理"><a href="#统一异常处理" class="headerlink" title="统一异常处理"></a>统一异常处理</h1><h4 id="全局异常捕捉"><a href="#全局异常捕捉" class="headerlink" title="全局异常捕捉"></a>全局异常捕捉</h4><pre><code>@ControllerAdvice
-@RestController
-public class AllExceptionHandler {
 
-    /**
-     * 处理所有其它异常
-     */
-    @ExceptionHandler(Exception.class)
-    public Result handleOtherException(Exception e) {
-        String message = &quot;[handleOtherException] &quot; + ExceptionUtil.exception2Str(e);
-        return Result.fail(ResultEnum.serverError, message);
-    }
-
-    /**
-     * 处理noHandler异常
-     */
-    @ExceptionHandler(NoHandlerFoundException.class)
-    public Result handleNoHandlerFoundException() {
-        return Result.fail(ResultEnum.handlerNotExist);
-    }
-
-    @ExceptionHandler(ServiceException.class)
-    public Result handleServiceException(ServiceException e) {
-        return Result.fail(e.getResultEnum(), e.getExceptionMessage());
-    }
-
-}
-</code></pre><h4 id="返回结果封装"><a href="#返回结果封装" class="headerlink" title="返回结果封装"></a>返回结果封装</h4><pre><code>@Data
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class Result&lt;T&gt; {
-
-    @JSONField(ordinal = 10)
-    private Boolean success;
-
-    @JSONField(ordinal = 20)
-    private String code;
-
-    @JSONField(ordinal = 30)
-    private String message;
-
-    @JSONField(ordinal = 40)
-    private T data;
-
-    public static Result fail(ResultEnum resultEnum) {
-        Result result = new Result();
-        result.success = resultEnum.getSuccess();
-        result.code = resultEnum.getCode();
-        result.message = resultEnum.getMessage();
-        result.data = null;
-        return result;
-    }
-
-    public static Result fail(ResultEnum resultEnum, String message) {
-        Result result = fail(resultEnum);
-        if (StringUtils.isNotBlank(message)) {
-            result.message = message;
-        }
-        return result;
-    }
-
-    public static &lt;T&gt; Result success(T data) {
-        Result result = new Result();
-        result.setSuccess(ResultEnum.doSuccess.getSuccess());
-        result.setCode(ResultEnum.doSuccess.getCode());
-        result.setMessage(ResultEnum.doSuccess.getMessage());
-        result.data = data;
-        return result;
-    }
-
-}</code></pre>
-            <hr>
-          </div>
-          <br>
-          <div>
-            
-              <p>
-                <i class="iconfont icon-inbox"></i>
-                
-                  <a class="hover-with-bg" href="/categories/spring%20boot">spring boot</a>
-                  &nbsp;
-                
-                  <a class="hover-with-bg" href="/categories/exception">exception</a>
-                  &nbsp;
-                
-              </p>
-            
-            <p>
-              <i class="iconfont icon-tag"></i>
-              
-                <a class="hover-with-bg" href="/tags/spring%20boot">spring boot</a>
-              
-            </p>
-            
-              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
-            
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="d-none d-lg-block col-lg-2 toc-container">
-      
-  <div id="toc">
-    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
-    <div id="tocbot"></div>
-  </div>
-
-    </div>
-  </div>
-</div>
-
-<!-- custom -->
-
-
-<!-- Comments -->
-<div class="col-lg-7 mx-auto nopadding-md">
-  <div class="container comments mx-auto" id="comments">
-    
-      <br><br>
-      
-      
-  <script src="https://utteranc.es/client.js"
-          repo="ziyiyizi/ziyiyizi.github.io"
-          issue-term="pathname"
-  
-          label="utterances"
-    
-          theme="github-light"
-          crossorigin="anonymous"
-          async>
-  </script>
-
-
-    
-  </div>
-</div>
-
     
   </main>
 
@@ -323,11 +204,6 @@ public final class Result&lt;T&gt; {
   <script src="/js/lazyload.js" ></script>
 
 
-  
-    <script src="/lib/tocbot/tocbot.min.js" ></script>
-  
-  <script src="/js/post.js" ></script>
-
 
   <script src="/lib/prettify/prettify.min.js" ></script>
   <script>
@@ -343,7 +219,7 @@ public final class Result&lt;T&gt; {
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "全局异常&nbsp;",
+        "标签 - lombok&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

@@ -139,6 +139,84 @@
     
     
       <div class="col-12 col-md-4 m-auto">
+        <a href="/2019/12/26/lombok%E6%B3%A8%E8%A7%A3/" target="_blank">
+          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="lombok注解" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/12/26/lombok%E6%B3%A8%E8%A7%A3/">
+        <p class="h4 index-header">lombok注解</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">常用的lombok注解
+@Data
+
+
+包含了@ToString @EqualsAndHashCode @Getter @Setter@ToString等可使用callSuper=true来引入父类属性 用exclude来排除属性
+
+
+@Value
+
+跟@Data差不多 但所有属性会为final
+
+
+@NoArgsConstructor
+
+无参构造器 可用access = AccessLevel.PRIVATE来标识这是个私有构造器
+
+
+@AllArgsConstructor
+
+@Accessors(chain = true)
+
+对象链式构造
+
+
+@Builder
+
+@Slf4J
+
+
+idea使用lombokplugins 安装lombok插件
+pom引入依赖&lt;dependency&gt;
+        &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+        &lt;artifactId&gt;lombok&lt;/artifactId&gt;
+        &lt;version&gt;1.18.10&lt;/ver</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-12-26&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/spring%20boot">spring boot</a>&nbsp;
+          
+            <a href="/categories/spring%20lombok">spring lombok</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/spring%20boot">spring boot</a>&nbsp;
+          
+            <a href="/tags/lombok">lombok</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
         <a href="/2019/12/11/springcloud%20stream/" target="_blank">
           <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="spring cloud stream" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>
@@ -204,7 +282,7 @@ SpringCloud Stream消息驱动优缺点解耦合消息中间件的架构不同�
           <div class="index-text mb-1">mongotemplatepom.xml&lt;dependency&gt;
             &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
             &lt;artifactId&gt;spring-boot-starter-data-mongodb&lt;/artifactId&gt;
-&lt;/dependency&gt;配置spring.data.mongodb.uri=mongodb://47.103.114.87:27017/label_performance
+&lt;/dependency&gt;配置spring.data.mongodb.uri=mongodb://xxxx:27017/xxxx
 使用MongoTemplate查询
 单条件
 
@@ -215,7 +293,8 @@ or &amp; and
 Criteria criteria = new Criteria();
 
 criteria.orOperator(
-Criteria.where(&quot;title&quot;).is(&quot;a&</div>
+Criteria.where(&quot;title&quot;).is(&quot;a&quot;),
+Criteria.where</div>
         </div>
       </a>
 
@@ -264,10 +343,10 @@ Criteria.where(&quot;title&quot;).is(&quot;a&</div>
         &lt;groupId&gt;com.baomidou&lt;/groupId&gt;
         &lt;artifactId&gt;mybatis-plus-boot-starter&lt;/artifactId&gt;
         &lt;version&gt;3.2.0&lt;/version&gt;
-&lt;/dependency&gt;yml配置文件spring.datasource.url=jdbc:mysql://47.103.220.51:3306/label_workflow?allowMultiQueries=true
+&lt;/dependency&gt;yml配置文件spring.datasource.url=jdbc:mysql://xxxx:3306/xxxx?allowMultiQueries=true
 spring.datasource.username=root
-spring.datasource.password=Wood!nHo13启动类加上MapperScan注解@MapperScan(&quot;com.baomidou.mybatisplus.samples.quickstart.mapper&quot;)
-编写实体类编写Mapperpubl</div>
+spring.datasource.password=xxxx启动类加上MapperScan注解@MapperScan(&quot;com.baomidou.mybatisplus.samples.quickstart.mapper&quot;)
+编写实体类编写Mapperpublic interface UserMapper e</div>
         </div>
       </a>
 
@@ -429,23 +508,23 @@ ide在发现代码有更改之后，重新启动应用，但是速度比手动�
         
         <div class="index-excerpt" >
           <div class="index-text mb-1">统一异常处理全局异常捕捉@ControllerAdvice
-public class ExceptionHandle {
-    private  final static Logger logger = LoggerFactory.getLogger(ExceptionHandle.class);
-    @ExceptionHandler(value = Exception.class)
-    @ResponseBody
-    public ServiceResult handle(Exception e){
-        return ServiceResult.failure(100, e.getMessage());
+@RestController
+public class AllExceptionHandler {
+
+    /**
+     * 处理所有其它异常
+     */
+    @ExceptionHandler(Exception.class)
+    public Result handleOtherException(Exception e) {
+        String message = &quot;[handleOtherException] &quot; + ExceptionUtil.exception2Str(e);
+        return Result.fail(ResultEnum.serverError, message);
     }
-}返回结果封装import java.io.Serializable;
 
-/**
- * service层返回对象列表封装
- *
- * @param &lt;T&gt;
- */
-public class ServiceResult&lt;T&gt; implements Serializable {
-
-    private boolean su</div>
+    /**
+     * 处理noHandler异常
+     */
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public Result handleNoHandlerFoundEx</div>
         </div>
       </a>
 
@@ -492,16 +571,21 @@ public class ServiceResult&lt;T&gt; implements Serializable {
             &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
             &lt;artifactId&gt;spring-boot-starter-aop&lt;/artifactId&gt;
         &lt;/dependency&gt;切面类
-类上加入@Aspect @Component 注解
+类上加入@Aspect 注解
 使用@Pointcut 定义一个公共的方法，定义切哪个点
 @Before @After @AfterReturning 这三个注解是切的时间点
-使用org.slf4j.Logger 进行日志记录
+使用@Slf4J 进行日志记录
 
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Comp</div>
+@Aspect
+@Slf4J
+@Component
+public class HttpAspect {
+    @Pointcut(&quot;execution(com.javaee.artastic.Artastic.controller.TestController.*(..))&quot;)
+    public void log(){
+
+    }
+
+    @Before</div>
         </div>
       </a>
 
@@ -615,26 +699,24 @@ spring:
 
 server:
   port: 8088
-girl:
-  name: 毛毛
-  age: 18
+app:
+  name:test
 application-dev.yml (开发环境)文件内容
 
 server:
   port: 8099
-girl:
-  name: maomao
-  age: 18
+app:
+  name: test1
 application.yml文件内容,这个就代表使用dev的配置文件
 
 spring:
   profiles:
-    active: dev
+    active: ${environment}
 先执行 mvn install 在执行启动 java -jar xxx.jar –spring.profiles.active=prod
 
 此时就是访问的prod 的配置8088，（注意我们配置的application.yml 中用的是dev 这个配置文件，但是我们启动的时候加上后面的参数就自动切换到 prod 文件上）
 
-或VM Options里添加</div>
+或VM Options里添加 -Denvironm</div>
         </div>
       </a>
 
@@ -662,60 +744,18 @@ spring:
     </div>
   </div>
 
-  <div class="row mb-4 mx-auto">
-    
-    
-      <div class="col-12 col-md-4 m-auto">
-        <a href="/2019/10/23/%E6%95%B4%E5%90%88swagger/" target="_blank">
-          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="swagger" class="img-fluid rounded z-depth-3 index-thumbnails">
-        </a>
-      </div>
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2019/10/23/%E6%95%B4%E5%90%88swagger/">
-        <p class="h4 index-header">swagger</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">整合swaggerSwaggerConfig.java
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.ParameterBuilder;
-import spri</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2019-10-23&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/spring%20boot">spring boot</a>&nbsp;
-          
-            <a href="/categories/swagger">swagger</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/spring%20boot">spring boot</a>&nbsp;
-          
-            <a href="/tags/swagger">swagger</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
 
 
+  <nav aria-label="index posts navigation">
+    <ul class="pagination pg-blue justify-content-center mt-5">
+      
+      
+        <li class="page-item">
+          <a class="page-link" href="/page/2/#board">下一页</a>
+        </li>
+      
+    </ul>
+  </nav>
 
 
 

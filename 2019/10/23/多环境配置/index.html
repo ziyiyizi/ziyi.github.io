@@ -142,21 +142,19 @@
 </ul>
 <pre><code>server:
   port: 8088
-girl:
-  name: 毛毛
-  age: 18</code></pre><ul>
+app:
+  name:test</code></pre><ul>
 <li>application-dev.yml (开发环境)文件内容</li>
 </ul>
 <pre><code>server:
   port: 8099
-girl:
-  name: maomao
-  age: 18</code></pre><ul>
+app:
+  name: test1</code></pre><ul>
 <li>application.yml文件内容,这个就代表使用dev的配置文件</li>
 </ul>
 <pre><code>spring:
   profiles:
-    active: dev</code></pre><ul>
+    active: ${environment}</code></pre><ul>
 <li><p>先执行 mvn install 在执行启动 java -jar xxx.jar –spring.profiles.active=prod</p>
 </li>
 <li><p>此时就是访问的prod 的配置8088，（注意我们配置的application.yml 中用的是dev 这个配置文件，但是我们启动的时候加上后面的参数就自动切换到 prod 文件上）</p>

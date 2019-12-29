@@ -138,9 +138,9 @@
         &lt;groupId&gt;com.baomidou&lt;/groupId&gt;
         &lt;artifactId&gt;mybatis-plus-boot-starter&lt;/artifactId&gt;
         &lt;version&gt;3.2.0&lt;/version&gt;
-&lt;/dependency&gt;</code></pre><h5 id="yml配置文件"><a href="#yml配置文件" class="headerlink" title="yml配置文件"></a>yml配置文件</h5><pre><code>spring.datasource.url=jdbc:mysql://47.103.220.51:3306/label_workflow?allowMultiQueries=true
+&lt;/dependency&gt;</code></pre><h5 id="yml配置文件"><a href="#yml配置文件" class="headerlink" title="yml配置文件"></a>yml配置文件</h5><pre><code>spring.datasource.url=jdbc:mysql://xxxx:3306/xxxx?allowMultiQueries=true
 spring.datasource.username=root
-spring.datasource.password=Wood!nHo13</code></pre><h5 id="启动类加上MapperScan注解"><a href="#启动类加上MapperScan注解" class="headerlink" title="启动类加上MapperScan注解"></a>启动类加上MapperScan注解</h5><p><code>@MapperScan(&quot;com.baomidou.mybatisplus.samples.quickstart.mapper&quot;)</code></p>
+spring.datasource.password=xxxx</code></pre><h5 id="启动类加上MapperScan注解"><a href="#启动类加上MapperScan注解" class="headerlink" title="启动类加上MapperScan注解"></a>启动类加上MapperScan注解</h5><p><code>@MapperScan(&quot;com.baomidou.mybatisplus.samples.quickstart.mapper&quot;)</code></p>
 <h5 id="编写实体类"><a href="#编写实体类" class="headerlink" title="编写实体类"></a>编写实体类</h5><h5 id="编写Mapper"><a href="#编写Mapper" class="headerlink" title="编写Mapper"></a>编写Mapper</h5><pre><code>public interface UserMapper extends BaseMapper&lt;User&gt; {
 
 }</code></pre><h5 id="测试类"><a href="#测试类" class="headerlink" title="测试类"></a>测试类</h5><pre><code>@RunWith(SpringRunner.class)
