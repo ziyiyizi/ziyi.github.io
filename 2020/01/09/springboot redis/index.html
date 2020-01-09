@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="YI ZI">
   <meta name="keywords" content="">
-  <title>归档 ~ BLOG</title>
+  <title>springboot redis ~ BLOG</title>
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
   <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
   <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
@@ -31,7 +31,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -112,6 +112,9 @@
             </span>
 
             
+              <br>
+              <p class="mt-3">星期四, 一月 9日 2020, 12:10 中午</p>
+            
           </div>
 
           
@@ -122,53 +125,147 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">共计 16 篇文章</p>
-  <hr>
-  
-    
       
-      <p class="h5">2019</p>
-    
-    <a href="/2019/11/25/mongotemplate/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">mongotemplate</span>
-      <span style="float: right;">11-25</span>
-    </a>
-  
-    
-    <a href="/2019/11/25/mybatis-plus/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">mybatis plus</span>
-      <span style="float: right;">11-25</span>
-    </a>
-  
-    
-    <a href="/2019/11/12/devtools/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">devtools</span>
-      <span style="float: right;">11-12</span>
-    </a>
-  
-    
-    <a href="/2019/11/06/Effective%20JAVA%E7%AC%94%E8%AE%B0/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Effective Java</span>
-      <span style="float: right;">11-06</span>
-    </a>
-  
-</div>
 
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <h1 id="springboot-redis"><a href="#springboot-redis" class="headerlink" title="springboot redis"></a>springboot redis</h1><h2 id="properties"><a href="#properties" class="headerlink" title="properties"></a>properties</h2><pre><code>spring.redis.database=0
+spring.redis.host=xxx
+spring.redis.port=6379
+spring.redis.password=</code></pre><h2 id="pom"><a href="#pom" class="headerlink" title="pom"></a>pom</h2><pre><code>&lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
+        &lt;/dependency&gt;</code></pre><h2 id="use"><a href="#use" class="headerlink" title="use"></a>use</h2><pre><code>@Resource
+private StringRedisTemplate stringRedisTemplate;
 
-              </div>
-            </div>
+stringRedisTemplate.opsForValue().set(AccountConst.TRANSACTION_ID + transactionId, TransactionalMessageStatus.commit.getMessage());
+String val = stringRedisTemplate.opsForValue().get(AccountConst.TRANSACTION_ID + transactionalId);</code></pre><h2 id="increment"><a href="#increment" class="headerlink" title="increment"></a>increment</h2><p><code>stringRedisTemplate.opsForValue().increment(KEY, INC_NUM)</code></p>
+<ul>
+<li>原子性加值</li>
+<li>key不存在时会初始化为0</li>
+</ul>
+<h2 id="redisson-集群配置"><a href="#redisson-集群配置" class="headerlink" title="redisson(集群配置)"></a>redisson(集群配置)</h2><pre><code># redisson
+spring.redis.password =
+spring.redis.database = 1
+spring.redis.cluster.max-redirects = 3
+spring.redis.sentinel.master = master-1
+spring.redis.sentinel.nodes = #ip:port</code></pre><pre><code>@Configuration
+public class RedissonConfig {
+
+    @Value(&quot;${isProd:false}&quot;)
+    private boolean isProd;
+
+    @Value(&quot;${spring.redis.sentinel.nodes}&quot;)
+    private String redisUrl;
+
+    @Value(&quot;${spring.redis.password}&quot;)
+    private String password;
+
+    @Value(&quot;${spring.redis.database}&quot;)
+    private int database;
+
+    @Value(&quot;${spring.redis.sentinel.master}&quot;)
+    private String masterName;
+
+    @Bean(&quot;redisson&quot;)
+    public  Redisson getRedisson() {
+        Config config = new Config();
+        String prefix = &quot;redis://&quot;;
+        String[] nodes = redisUrl.split(&quot;,&quot;);
+        List&lt;String&gt; nodesList = new ArrayList&lt;&gt;(nodes.length);
+        Arrays.stream(nodes).forEach(node -&gt; nodesList.add(node.startsWith(prefix) ? node : prefix + node));
+        if (isProd) {
+            nodes = nodesList.toArray(new String[0]);
+            config.useSentinelServers().setMasterName(masterName).addSentinelAddress(nodes)
+                    .setPassword(password)
+                    .setDatabase(database);
+        } else {
+            config.useSingleServer().setDatabase(database).setAddress(nodesList.get(0).toString()).setPassword(password);
+        }
+        return (Redisson)Redisson.create(config);
+    }
+}</code></pre><pre><code>@Resource(name = &quot;redisson&quot;)
+private Redisson redisson;
+
+RLock rLock = redisson.getLock(LOCK_NAME);
+boolean isLock = rLock.tryLock(1, 60 * 60, TimeUnit.SECONDS);
+if (!isLock) {
+    log.error(&quot;定时任务锁已被其他机器相同服务占有，任务终止。&quot;);
+    return;
+}</code></pre>
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/spring%20boot">spring boot</a>
+                  &nbsp;
+                
+                  <a class="hover-with-bg" href="/categories/redis">redis</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/spring%20boot">spring boot</a>
+              
+                <a class="hover-with-bg" href="/tags/redis">redis</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <script src="https://utteranc.es/client.js"
+          repo="ziyiyizi/ziyiyizi.github.io"
+          issue-term="pathname"
+  
+          label="utterances"
+    
+          theme="github-light"
+          crossorigin="anonymous"
+          async>
+  </script>
+
+
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -222,6 +319,11 @@
   <script src="/js/lazyload.js" ></script>
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
   <script src="/lib/prettify/prettify.min.js" ></script>
   <script>
@@ -237,7 +339,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "归档&nbsp;",
+        "springboot redis&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

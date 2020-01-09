@@ -139,6 +139,251 @@
     
     
       <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/01/09/PostStartClass/" target="_blank">
+          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="springboot项目启动后执行的类" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/01/09/PostStartClass/">
+        <p class="h4 index-header">springboot项目启动后执行的类</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">springboot项目启动后执行的类@Component
+@Slf4j
+@EnableBinding(PerformanceOutput.class)
+/**
+ * 据实践 使用stream发送第一条消息均会失败 因此在启动后发送一条无效消息 以确保之后的消息不会出现此问题
+ */
+public class AfterServiceStartRunner implements ApplicationRunner {
+
+    @Autowired
+    private PerformanceOutput performanceOutput;
+
+    /**
+     * 会在服务启动完成后立即执行
+     */
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        performanceOutput.output().send(MessageBuilderUtil.buildMessage(&quot;performance已启动&quot;, &quot;</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-09&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/spring%20boot">spring boot</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/spring%20boot">spring boot</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/01/09/springboot%20redis/" target="_blank">
+          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="springboot redis" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/01/09/springboot%20redis/">
+        <p class="h4 index-header">springboot redis</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">springboot redispropertiesspring.redis.database=0
+spring.redis.host=xxx
+spring.redis.port=6379
+spring.redis.password=pom&lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
+        &lt;/dependency&gt;use@Resource
+private StringRedisTemplate stringRedisTemplate;
+
+stringRedisTemplate.opsForValue().set(AccountConst.TRANSACTION_ID + transactionId, TransactionalMessageStatus.commit.getMes</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-09&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/spring%20boot">spring boot</a>&nbsp;
+          
+            <a href="/categories/redis">redis</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/spring%20boot">spring boot</a>&nbsp;
+          
+            <a href="/tags/redis">redis</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/01/07/flyway%E9%9B%86%E6%88%90/" target="_blank">
+          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="flyway集成" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/01/07/flyway%E9%9B%86%E6%88%90/">
+        <p class="h4 index-header">flyway集成</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">flyway集成
+引入pom依赖
+
+&lt;dependency&gt;
+            &lt;groupId&gt;org.flywaydb&lt;/groupId&gt;
+            &lt;artifactId&gt;flyway-core&lt;/artifactId&gt;
+            &lt;version&gt;6.1.0&lt;/version&gt;
+        &lt;/dependency&gt;
+properties 可有
+
+# 设为false，不对已经执行的sql进行内容校验
+spring.flyway.validate-on-migrate=false
+resource文件夹下新加db文件夹 在db文件夹下新建migration文件夹 在migration文件夹下新建sql初始脚本 命名格式”VyyMMddHHmm__init.sql” 如下
+
+USE `label_datastore`;
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+
+CREATE TABLE IF </div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-07&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/spring%20boot">spring boot</a>&nbsp;
+          
+            <a href="/categories/flyway">flyway</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/spring%20boot">spring boot</a>&nbsp;
+          
+            <a href="/tags/flyway">flyway</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/01/02/%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF/" target="_blank">
+          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="事务消息" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/01/02/%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF/">
+        <p class="h4 index-header">事务消息</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">Transactional Message
+在微服务架构中，我们常常使用异步化的手段来提升系统的吞吐量和解耦系统，而构建异步架构最常用的手段就是使用消息队列(MQ)，那异步架构要怎样实现数据一致性呢？事务消息是不可或缺的一环。
+
+作用事务消息实现了消息生产者本地事务执行与消息发送的原子性，保证了消息生产者本地事务处理成功与消息发送成功的最终一致。
+一个场景
+订单系统：生成订单记录 -&gt; MQ -&gt; 积分系统：增加积分
+
+
+先发送MQ消息：这个明显是不行的，因为如果消息发送成功，而订单创建失败的话是没办法把消息收回来的
+
+先创建订单记录：如果订单创建成功后MQ消息发送失败抛出异常，因为两个操作都在本地事务中所以订单数据是可以回滚的。这个方案看似没问题，但是网络是不可靠的。如果 MQ 的响应因为网络原因没有收到，所以在面对不确定的结果只好进行回滚；但是 MQ 端又确实是收到了这条消息的，只是回给客户端的响应丢失了。这会导致发送端回滚，而接收端执行业务导致不一致。
+
+
+事务消息原理{F19453, width=800}
+主要的逻辑分为两个流程：
+
+事务消息发送及提交：
+
+发送ha</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-02&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/spring%20cloud">spring cloud</a>&nbsp;
+          
+            <a href="/categories/spring%20cloud%20stream">spring cloud stream</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/spring%20cloud%20stream">spring cloud stream</a>&nbsp;
+          
+            <a href="/tags/spring%20cloud">spring cloud</a>&nbsp;
+          
+            <a href="/tags/rocketmq">rocketmq</a>&nbsp;
+          
+            <a href="/tags/%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF">事务消息</a>&nbsp;
+          
+            <a href="/tags/aliyunmq">aliyunmq</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
         <a href="/2019/12/26/lombok%E6%B3%A8%E8%A7%A3/" target="_blank">
           <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="lombok注解" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>
@@ -231,10 +476,10 @@ pom引入依赖&lt;dependency&gt;
         
         <div class="index-excerpt" >
           <div class="index-text mb-1">spring cloud stream一个构建消息驱动微服务的框架springcloud stream架构
-应用程序通过 inputs(相当于消费者consumer，它是从队列中接收消息的) 或者 outputs(相当于生产者producer，它是从队列中发送消息的) 来与 Spring Cloud Stream 中binder 交互，binder 负责与消息中间件交互。
-通道通过指定中间件的Binder实现与外部代理连接。业务开发者不再关注具体消息中间件，只需关注Binder对应用程序提供的抽象概念来使用消息中间件实现业务即可。
-SpringCloud Stream消息驱动优缺点解耦合消息中间件的架构不同。比方说RabbitMQ和Kafka，RabbitMQ有exchange，kafka有Topic，partitions分区，这些中间件的差异性导致我们实际项目开发给我们造成了一定的困扰，我们如果用了两个消息队列的其中一种，后面的业务需求，要往另外一种消息队列进行迁移，这时候很多东西改，因为它跟我们的系统耦合了。这时候springcloud stream给我们提供了一种解耦合的方式。
-</div>
+应用程序通过通道(channels): inputs(相当于消费者consumer，它是从队列中接收消息的) 或者 outputs(相当于生产者producer，它是从队列中发送消息的) 来与 Spring Cloud Stream 中binder 交互，binder 负责与消息中间件交互。通道通过指定中间件的Binder实现与外部代理连接。业务开发者不再关注具体消息中间件，只需关注Binder对应用程序提供的抽象概念来使用消息中间件实现业务即可。
+通过使用Spring Integration来连接消息代理中间件以实现消息事件驱动。Spring Cloud Stream 为一些供应商的消息中间件产品提供了个性化的自动化配置实现，引用了发布-订阅、消费组、分区的三个核心概念。
+
+notes: 消息的发布（Publish）和订阅（Subscribe）是事件驱动的经典模式。Spring Cloud Stream 的数据交互也是基于这个思想。生产者把消息通过某个 destination </div>
         </div>
       </a>
 
@@ -346,7 +591,8 @@ Criteria.where</div>
 &lt;/dependency&gt;yml配置文件spring.datasource.url=jdbc:mysql://xxxx:3306/xxxx?allowMultiQueries=true
 spring.datasource.username=root
 spring.datasource.password=xxxx启动类加上MapperScan注解@MapperScan(&quot;com.baomidou.mybatisplus.samples.quickstart.mapper&quot;)
-编写实体类编写Mapperpublic interface UserMapper e</div>
+编写实体类@Data
+public abstract class BaseSqlEn</div>
         </div>
       </a>
 
@@ -429,315 +675,39 @@ ide在发现代码有更改之后，重新启动应用，但是速度比手动�
     
     
       <div class="col-12 col-md-4 m-auto">
-        <a href="/2019/10/25/enum%E4%BC%98%E5%8C%96switch/" target="_blank">
-          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="enum优化switch case" class="img-fluid rounded z-depth-3 index-thumbnails">
+        <a href="/2019/11/06/Effective%20JAVA%E7%AC%94%E8%AE%B0/" target="_blank">
+          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="Effective Java" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>
       </div>
     
     <div class="col-12 col-md-8 m-auto">
-      <a href="/2019/10/25/enum%E4%BC%98%E5%8C%96switch/">
-        <p class="h4 index-header">enum优化switch case</p>
+      <a href="/2019/11/06/Effective%20JAVA%E7%AC%94%E8%AE%B0/">
+        <p class="h4 index-header">Effective Java</p>
         
         
           
         
         <div class="index-excerpt" >
-          <div class="index-text mb-1">enum优化switch casepublic class Outer {
-    public static void out(String str) {
-        System.out.println(str);
-    }
-    enum Inner {
-        JACK(1, &quot;jack&quot;) {
-            @Override
-            public void handle() {
-                out(this.getMessage());
-            }
-        },
-        ANNIE(2, &quot;annie&quot;) {
-            @Override
-            public void handle() {
-                out(this.getMessage());
-            }
-        };
-        Integer code;
-        String message;
-
-</div>
+          <div class="index-text mb-1">Effective Java note考虑用静态工厂方法代替构造器考虑用bulider模式通过私有构造器强化不可实例化的能力通过enum类型强化单例属性覆盖hashCode时总要覆盖equals复合优于继承接口优于抽象用函数对象表示策略enum代替int常量坚持使用override注解慎用可变参数精确答案避免使用float和double 使用int long BigDecimal通过接口引用对象executor和task优先于线程并发工具优先于wait和notify</div>
         </div>
       </a>
 
       <div>
         
-          <i class="iconfont icon-riqi2"></i>&nbsp;2019-10-25&nbsp;&nbsp;
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-11-06&nbsp;&nbsp;
         
         
           <i class="iconfont icon-inbox"></i>
           
             <a href="/categories/java">java</a>&nbsp;
           
-            <a href="/categories/enum">enum</a>&nbsp;
+            <a href="/categories/notes">notes</a>&nbsp;
           &nbsp;
         
         
           <i class="iconfont icon-tag"></i>
           
-            <a href="/tags/javase">javase</a>&nbsp;
-          
-            <a href="/tags/enum">enum</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-      <div class="col-12 col-md-4 m-auto">
-        <a href="/2019/10/23/%E7%BB%9F%E4%B8%80%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" target="_blank">
-          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="全局异常" class="img-fluid rounded z-depth-3 index-thumbnails">
-        </a>
-      </div>
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2019/10/23/%E7%BB%9F%E4%B8%80%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/">
-        <p class="h4 index-header">全局异常</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">统一异常处理全局异常捕捉@ControllerAdvice
-@RestController
-public class AllExceptionHandler {
-
-    /**
-     * 处理所有其它异常
-     */
-    @ExceptionHandler(Exception.class)
-    public Result handleOtherException(Exception e) {
-        String message = &quot;[handleOtherException] &quot; + ExceptionUtil.exception2Str(e);
-        return Result.fail(ResultEnum.serverError, message);
-    }
-
-    /**
-     * 处理noHandler异常
-     */
-    @ExceptionHandler(NoHandlerFoundException.class)
-    public Result handleNoHandlerFoundEx</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2019-10-23&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/spring%20boot">spring boot</a>&nbsp;
-          
-            <a href="/categories/exception">exception</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/spring%20boot">spring boot</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-      <div class="col-12 col-md-4 m-auto">
-        <a href="/2019/10/23/AOP/" target="_blank">
-          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="aop" class="img-fluid rounded z-depth-3 index-thumbnails">
-        </a>
-      </div>
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2019/10/23/AOP/">
-        <p class="h4 index-header">aop</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">AOP依赖       &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-aop&lt;/artifactId&gt;
-        &lt;/dependency&gt;切面类
-类上加入@Aspect 注解
-使用@Pointcut 定义一个公共的方法，定义切哪个点
-@Before @After @AfterReturning 这三个注解是切的时间点
-使用@Slf4J 进行日志记录
-
-@Aspect
-@Slf4J
-@Component
-public class HttpAspect {
-    @Pointcut(&quot;execution(com.javaee.artastic.Artastic.controller.TestController.*(..))&quot;)
-    public void log(){
-
-    }
-
-    @Before</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2019-10-23&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/spring%20boot">spring boot</a>&nbsp;
-          
-            <a href="/categories/aop">aop</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/spring%20boot">spring boot</a>&nbsp;
-          
-            <a href="/tags/aop">aop</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-      <div class="col-12 col-md-4 m-auto">
-        <a href="/2019/10/23/JPA/" target="_blank">
-          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="jpa" class="img-fluid rounded z-depth-3 index-thumbnails">
-        </a>
-      </div>
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2019/10/23/JPA/">
-        <p class="h4 index-header">jpa</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">JPApom
-       &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;mysql&lt;/groupId&gt;
-            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
-        &lt;/dependency&gt;application.yml
-
-MySQL 5.6
-
-spring:
-  profiles:
-    active: dev
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driv</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2019-10-23&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/spring%20boot">spring boot</a>&nbsp;
-          
-            <a href="/categories/jpa">jpa</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/spring%20boot">spring boot</a>&nbsp;
-          
-            <a href="/tags/jpa">jpa</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-      <div class="col-12 col-md-4 m-auto">
-        <a href="/2019/10/23/%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" target="_blank">
-          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="多环境配置" class="img-fluid rounded z-depth-3 index-thumbnails">
-        </a>
-      </div>
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2019/10/23/%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
-        <p class="h4 index-header">多环境配置</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">开发环境和生成环境配置不同的问题
-复制2个yml文件，分别是application-dev.yml (开发环境) application-prod.yml（生产环境）
-
-修改application-prod.yml（生产环境）文件
-
-
-server:
-  port: 8088
-app:
-  name:test
-application-dev.yml (开发环境)文件内容
-
-server:
-  port: 8099
-app:
-  name: test1
-application.yml文件内容,这个就代表使用dev的配置文件
-
-spring:
-  profiles:
-    active: ${environment}
-先执行 mvn install 在执行启动 java -jar xxx.jar –spring.profiles.active=prod
-
-此时就是访问的prod 的配置8088，（注意我们配置的application.yml 中用的是dev 这个配置文件，但是我们启动的时候加上后面的参数就自动切换到 prod 文件上）
-
-或VM Options里添加 -Denvironm</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2019-10-23&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/spring%20boot">spring boot</a>&nbsp;
-          
-            <a href="/categories/spring%20boot%20config">spring boot config</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/spring%20boot">spring boot</a>&nbsp;
-          
-            <a href="/tags/config">config</a>&nbsp;
+            <a href="/tags/java">java</a>&nbsp;
           
         
       </div>

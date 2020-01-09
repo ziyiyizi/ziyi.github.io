@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/myicon.jpg">
+  <link rel="icon" type="image/png" href="/img/myicon.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="author" content="YI ZI">
+  <meta name="keywords" content="">
+  <title>事务消息 ~ BLOG</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+  
+  <link rel="stylesheet" href="/css/main.css"  >
+
+  
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>紫衣的BLOG</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">主页</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">足迹</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">归档</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">标签</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/mybg.jpg')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              <p class="mt-3">星期四, 一月 2日 2020, 2:54 下午</p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <h1 id="Transactional-Message"><a href="#Transactional-Message" class="headerlink" title="Transactional Message"></a>Transactional Message</h1><blockquote>
+<p>在微服务架构中，我们常常使用异步化的手段来提升系统的吞吐量和解耦系统，而构建异步架构最常用的手段就是使用消息队列(MQ)，那异步架构要怎样实现数据一致性呢？事务消息是不可或缺的一环。</p>
+</blockquote>
+<h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><p>事务消息实现了消息生产者<strong>本地事务执行</strong>与<strong>消息发送</strong>的原子性，保证了消息生产者<strong>本地事务处理成功</strong>与<strong>消息发送成功</strong>的最终一致。</p>
+<h2 id="一个场景"><a href="#一个场景" class="headerlink" title="一个场景"></a>一个场景</h2><blockquote>
+<p>订单系统：生成订单记录 -&gt; MQ -&gt; 积分系统：增加积分</p>
+</blockquote>
+<ul>
+<li><p>先发送MQ消息：这个明显是不行的，因为如果消息发送成功，而订单创建失败的话是没办法把消息收回来的</p>
+</li>
+<li><p>先创建订单记录：如果订单创建成功后MQ消息发送失败抛出异常，因为两个操作都在本地事务中所以订单数据是可以回滚的。这个方案看似没问题，但是网络是不可靠的。如果 MQ 的响应因为网络原因没有收到，所以在面对不确定的结果只好进行回滚；但是 MQ 端又确实是收到了这条消息的，只是回给客户端的响应丢失了。这会导致发送端回滚，而接收端执行业务导致不一致。</p>
+</li>
+</ul>
+<h2 id="事务消息原理"><a href="#事务消息原理" class="headerlink" title="事务消息原理"></a>事务消息原理</h2><p>{F19453, width=800}</p>
+<p>主要的逻辑分为两个流程：</p>
+<ul>
+<li>事务消息发送及提交：</li>
+</ul>
+<p>发送half消息<br>MQ服务端响应消息写入结果<br>根据发送结果执行本地事务（如果写入失败，此时half消息对业务不可见，本地逻辑不执行）<br>根据本地事务状态执行 Commit 或者 Rollback（Commit操作生成消息索引，消息对消费者可见）</p>
+<ul>
+<li>回查流程：</li>
+</ul>
+<p>对于长时间没有 Commit/Rollback 的事务消息（pending 状态的消息），从服务端发起一次回查<br>Producer 收到回查消息，检查回查消息对应的本地事务状态<br>根据本地事务状态，重新 Commit 或者 Rollback</p>
+<h2 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h2><p>{F19455, width=600}</p>
+<h2 id="最终一致性实现"><a href="#最终一致性实现" class="headerlink" title="最终一致性实现"></a>最终一致性实现</h2><p>从上面的原理可以发现事务消息仅仅只是保证本地事务和MQ消息发送的原子性，而投递到MQ服务器后，并无法保证消费者一定能消费成功。如果消费端消费失败，可以记录异常信息然后人工处理。回滚上游服务的数据并不是个好的选择(因为两者是解耦的，而且复杂度太高)</p>
+<p>我们可以利用 MQ 的两个特性 <strong>重试</strong> 和 <strong>死信队列</strong> 来协助消费端处理：</p>
+<ul>
+<li>消费失败后进行一定次数的重试</li>
+<li>重试后也失败的话该消息丢进死信队列里</li>
+<li>另外起一个线程监听消费死信队列里的消息，记录日志并且预警</li>
+</ul>
+<p>因为有重试， 所以消费者需要实现<strong>幂等性</strong></p>
+<blockquote>
+<p>幂等性是指用户对于同一操作发起的一次请求或者多次请求的结果是一致的，不会因为多次点击而产生副作用，比如订单就算多次点击支付也只有一次能支付成功</p>
+</blockquote>
+<h2 id="spring-cloud-stream-aliyunMQ实现事务消息"><a href="#spring-cloud-stream-aliyunMQ实现事务消息" class="headerlink" title="spring cloud stream + aliyunMQ实现事务消息"></a>spring cloud stream + aliyunMQ实现事务消息</h2><h3 id="坏境"><a href="#坏境" class="headerlink" title="坏境"></a>坏境</h3><ul>
+<li>spring boot 2.2.0</li>
+<li>spring cloud Hoxton.M3</li>
+<li>stream 0.2.2</li>
+</ul>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><pre><code>#stream
+#阿里云控制台rocketmq的配置
+#tcp外网连接需要mq实例id
+mq.instance-id=MQ_INST_????_BbwSzZdg
+#必要 事务消息transactionListener连接aliyunmq需要
+rocketmq.producer.access-key=xxxx
+rocketmq.producer.secret-key=xxxx
+spring.cloud.stream.default-binder=rocketmq
+spring.cloud.stream.rocketmq.binder.name-server=MQ_INST_????_BbwSzZdg.mq-internet-access.mq-internet.aliyuncs.com:80
+spring.cloud.stream.rocketmq.binder.access-key=xxxx
+spring.cloud.stream.rocketmq.binder.secret-key=xxxx
+#事务消息生产者
+#相当于topic 需要现在控制台创建account-transaction这个topic 这是个事务消息的topic
+spring.cloud.stream.bindings.output-transaction.destination=${mq.instance-id}%account-transaction
+spring.cloud.stream.rocketmq.bindings.output-transaction.producer.transactional=true
+spring.cloud.stream.rocketmq.bindings.output-transaction.producer.group=${mq.instance-id}%GID-ACCOUNT-TRANSACTIONAL-PRODUCER
+#事务消息消费者
+spring.cloud.stream.bindings.input-transactional.destination=${mq.instance-id}%account-transaction
+spring.cloud.stream.bindings.input-transactional.group=${mq.instance-id}%GID-ACCOUNT-TRANSACTIONAL-CONSUMER
+#二级分类tag 配置消费者消费的tag 生产者可在发送时指定tag
+spring.cloud.stream.rocketmq.bindings.input-transactional.consumer.tags=recharge||freeze||withdraw||dedution||account
+#失败的消息进入死信队列
+spring.cloud.stream.rocketmq.bindings.input-transactional.consumer.delay-level-when-next-consume=-1
+#尝试次数 重试一次
+spring.cloud.stream.bindings.input-transactional.consumer.max-attempts=2
+#死信队列
+spring.cloud.stream.bindings.inputDlq.destination=%DLQ%${spring.cloud.stream.bindings.input-transactional.group}
+spring.cloud.stream.bindings.inputDlq.group=${mq.instance-id}%GID-DLQ-ACCOUNT-TRANSACTIONAL</code></pre><h3 id="pom依赖"><a href="#pom依赖" class="headerlink" title="pom依赖"></a>pom依赖</h3><pre><code>&lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-stream-rocketmq&lt;/artifactId&gt;
+            &lt;version&gt;0.2.2.RELEASE&lt;/version&gt;
+        &lt;/dependency&gt;</code></pre><h3 id="生产者output-channel"><a href="#生产者output-channel" class="headerlink" title="生产者output channel"></a>生产者output channel</h3><pre><code>public interface AccountOutput {
+    String TRANSACTION_OUTPUT = &quot;output-transaction&quot;;
+
+    /**
+     * 事务消息生产者pipe
+     */
+    @Output(TRANSACTION_OUTPUT)
+    MessageChannel transactionOutput();
+}</code></pre><h3 id="事务消息生产者"><a href="#事务消息生产者" class="headerlink" title="事务消息生产者"></a>事务消息生产者</h3><pre><code>@EnableBinding(AccountOutput.class)
+public class AccountTransactionProducer {
+    @Autowired
+    private AccountOutput accountOutput;
+
+    /**
+     * 生产者生产消息
+     */
+    public void sendTransactional(Object obj, String tag) {
+        accountOutput.transactionOutput().send(buildTransactionalMessage(obj, tag));
+    }
+
+    private Message buildTransactionalMessage(Object obj, String tag) {
+        return MessageBuilder.withPayload(JSON.toJSONString(obj))
+                .setHeader(RocketMQHeaders.TAGS, tag)
+                .setHeader(RocketMQHeaders.TRANSACTION_ID, UUID.randomUUID().toString().replaceAll(&quot;-&quot;, &quot;&quot;))
+                .setHeader(MessageConst.PROPERTY_TRANSACTION_CHECK_TIMES, AccountConst.TRANSACTION_CHECK_TIMES)
+                .build();
+    }
+}</code></pre><h3 id="消费者input-channel"><a href="#消费者input-channel" class="headerlink" title="消费者input channel"></a>消费者input channel</h3><pre><code>public interface AccountInput {
+    String INPUT = &quot;input-transactional&quot;;
+
+    /**
+     * 消费者pipe
+     */
+    @Input(INPUT)
+    SubscribableChannel input();
+}</code></pre><h3 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h3><pre><code>@EnableBinding(AccountInput.class)
+@Slf4j
+public class AccountConsumer {
+
+    /**
+     * 消费者消费消息
+     */
+    @StreamListener(AccountInput.INPUT)
+    public void receive(Message&lt;String&gt; message) {
+        log.info(&quot;【SpringCloud Stream】StreamListener.stream={}&quot;, JSON.toJSONString(message));
+    }
+}</code></pre><h3 id="事务消息监听（本地事务执行与半消息回查）"><a href="#事务消息监听（本地事务执行与半消息回查）" class="headerlink" title="事务消息监听（本地事务执行与半消息回查）"></a>事务消息监听（本地事务执行与半消息回查）</h3><pre><code>@Slf4j
+@RocketMQTransactionListener(txProducerGroup = &quot;MQ_INST_1734053594575120_BbwSzZdg%GID-ACCOUNT-TRANSACTIONAL-PRODUCER&quot;)
+public class AccountTransactionListener implements RocketMQLocalTransactionListener {
+    /**
+     * 处理本地事务
+     */
+    @Override
+    public RocketMQLocalTransactionState executeLocalTransaction(Message message, Object arg) {
+        try {
+      /**
+         * 在这里如果要获取payload的话 应使用
+         * String payload = new String((byte[]) message.getPayload());
+         * 直接获取的payload为byte[] 需要转为String
+         */
+            MessageHeaders headers = message.getHeaders();
+            String transactionalId = (String) headers.get(RocketMQHeaders.TRANSACTION_ID);
+            // 本地业务
+            log.info(&quot;开始执行本地事务&quot;);
+            // ...
+            log.info(&quot;本地事务执行成功&quot;);
+            return RocketMQLocalTransactionState.COMMIT;
+        } catch (Exception e) {
+            log.error(&quot;发生异常 消息回滚&quot;);
+            return RocketMQLocalTransactionState.ROLLBACK;
+        }
+    }
+
+    /**
+     * 若在本地事务执行过程中缺少二次确认消息或生产者处于等待状态
+     * MQ Server将向同一组中的每个生产者发送检查消息
+     */
+    @Override
+    public RocketMQLocalTransactionState checkLocalTransaction(Message message) {
+        log.info(&quot;由于生产者没有发送确认消息，启用消息回查&quot;);
+        try {
+            MessageHeaders headers = message.getHeaders();
+            String transactionalId = (String) headers.get(RocketMQHeaders.TRANSACTION_ID);
+            // 检查业务 往表里加一个TRANSACTION_ID以便于回查? 或是redis设置一个缓存key
+            // ...
+            return RocketMQLocalTransactionState.COMMIT;
+        } catch (Exception e) {
+            return RocketMQLocalTransactionState.ROLLBACK;
+        }
+    }
+}</code></pre>
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/spring%20cloud">spring cloud</a>
+                  &nbsp;
+                
+                  <a class="hover-with-bg" href="/categories/spring%20cloud%20stream">spring cloud stream</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/spring%20cloud%20stream">spring cloud stream</a>
+              
+                <a class="hover-with-bg" href="/tags/spring%20cloud">spring cloud</a>
+              
+                <a class="hover-with-bg" href="/tags/rocketmq">rocketmq</a>
+              
+                <a class="hover-with-bg" href="/tags/%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF">事务消息</a>
+              
+                <a class="hover-with-bg" href="/tags/aliyunmq">aliyunmq</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <script src="https://utteranc.es/client.js"
+          repo="ziyiyizi/ziyiyizi.github.io"
+          issue-term="pathname"
+  
+          label="utterances"
+    
+          theme="github-light"
+          crossorigin="anonymous"
+          async>
+  </script>
+
+
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+  <script src="/js/lazyload.js" ></script>
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "事务消息&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script>
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) || (/Safari/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent))) {
+      $("#background").css("background-attachment", "scroll");
+    }
+  </script>
+
+</body>
+</html>

@@ -139,6 +139,325 @@
     
     
       <div class="col-12 col-md-4 m-auto">
+        <a href="/2019/10/25/enum%E4%BC%98%E5%8C%96switch/" target="_blank">
+          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="enum优化switch case" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/10/25/enum%E4%BC%98%E5%8C%96switch/">
+        <p class="h4 index-header">enum优化switch case</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">enum优化switch casepublic class Outer {
+    public static void out(String str) {
+        System.out.println(str);
+    }
+    enum Inner {
+        JACK(1, &quot;jack&quot;) {
+            @Override
+            public void handle() {
+                out(this.getMessage());
+            }
+        },
+        ANNIE(2, &quot;annie&quot;) {
+            @Override
+            public void handle() {
+                out(this.getMessage());
+            }
+        };
+        Integer code;
+        String message;
+
+</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-10-25&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/java">java</a>&nbsp;
+          
+            <a href="/categories/enum">enum</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/javase">javase</a>&nbsp;
+          
+            <a href="/tags/enum">enum</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2019/10/23/%E7%BB%9F%E4%B8%80%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" target="_blank">
+          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="全局异常" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/10/23/%E7%BB%9F%E4%B8%80%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/">
+        <p class="h4 index-header">全局异常</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">统一异常处理全局异常捕捉@ControllerAdvice
+@RestController
+public class AllExceptionHandler {
+
+    /**
+     * 处理所有其它异常
+     */
+    @ExceptionHandler(Exception.class)
+    public Result handleOtherException(Exception e) {
+        String message = &quot;[handleOtherException] &quot; + ExceptionUtil.exception2Str(e);
+        return Result.fail(ResultEnum.serverError, message);
+    }
+
+    /**
+     * 处理noHandler异常
+     */
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public Result handleNoHandlerFoundEx</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-10-23&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/spring%20boot">spring boot</a>&nbsp;
+          
+            <a href="/categories/exception">exception</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/spring%20boot">spring boot</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2019/10/23/AOP/" target="_blank">
+          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="aop" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/10/23/AOP/">
+        <p class="h4 index-header">aop</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">AOP依赖       &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-aop&lt;/artifactId&gt;
+        &lt;/dependency&gt;切面类
+类上加入@Aspect 注解
+使用@Pointcut 定义一个公共的方法，定义切哪个点
+@Before @After @AfterReturning 这三个注解是切的时间点
+使用@Slf4J 进行日志记录
+
+@Aspect
+@Slf4J
+@Component
+public class HttpAspect {
+    @Pointcut(&quot;execution(com.javaee.artastic.Artastic.controller.TestController.*(..))&quot;)
+    public void log(){
+
+    }
+
+    @Before</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-10-23&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/spring%20boot">spring boot</a>&nbsp;
+          
+            <a href="/categories/aop">aop</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/spring%20boot">spring boot</a>&nbsp;
+          
+            <a href="/tags/aop">aop</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2019/10/23/JPA/" target="_blank">
+          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="jpa" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/10/23/JPA/">
+        <p class="h4 index-header">jpa</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">JPApom
+       &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;mysql&lt;/groupId&gt;
+            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+        &lt;/dependency&gt;application.yml
+
+MySQL 5.6
+
+spring:
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driv</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-10-23&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/spring%20boot">spring boot</a>&nbsp;
+          
+            <a href="/categories/jpa">jpa</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/spring%20boot">spring boot</a>&nbsp;
+          
+            <a href="/tags/jpa">jpa</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2019/10/23/%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" target="_blank">
+          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="多环境配置" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/10/23/%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
+        <p class="h4 index-header">多环境配置</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">开发环境和生成环境配置不同的问题
+复制2个yml文件，分别是application-dev.yml (开发环境) application-prod.yml（生产环境）
+
+修改application-prod.yml（生产环境）文件
+
+
+server:
+  port: 8088
+app:
+  name:test
+application-dev.yml (开发环境)文件内容
+
+server:
+  port: 8099
+app:
+  name: test1
+application.yml文件内容,这个就代表使用dev的配置文件
+
+spring:
+  profiles:
+    active: ${environment}
+先执行 mvn install 在执行启动 java -jar xxx.jar –spring.profiles.active=prod
+
+此时就是访问的prod 的配置8088，（注意我们配置的application.yml 中用的是dev 这个配置文件，但是我们启动的时候加上后面的参数就自动切换到 prod 文件上）
+
+或VM Options里添加 -Denvironm</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-10-23&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/spring%20boot">spring boot</a>&nbsp;
+          
+            <a href="/categories/spring%20boot%20config">spring boot config</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/spring%20boot">spring boot</a>&nbsp;
+          
+            <a href="/tags/config">config</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
         <a href="/2019/10/23/%E6%95%B4%E5%90%88swagger/" target="_blank">
           <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="swagger" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>

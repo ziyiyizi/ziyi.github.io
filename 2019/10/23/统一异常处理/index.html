@@ -161,7 +161,30 @@ public class AllExceptionHandler {
     }
 
 }
-</code></pre><h4 id="返回结果封装"><a href="#返回结果封装" class="headerlink" title="返回结果封装"></a>返回结果封装</h4><pre><code>@Data
+</code></pre><h4 id="自定义异常"><a href="#自定义异常" class="headerlink" title="自定义异常"></a>自定义异常</h4><pre><code>public class ServiceException extends RuntimeException {
+
+    private ResultEnum resultEnum;
+
+    private String exceptionMessage;
+
+    public ServiceException(ResultEnum resultEnum) {
+        this.resultEnum = resultEnum;
+    }
+
+    public ServiceException(ResultEnum resultEnum, String exceptionMessage) {
+        this.resultEnum = resultEnum;
+        this.exceptionMessage = exceptionMessage;
+    }
+
+    public ResultEnum getResultEnum() {
+        return resultEnum;
+    }
+
+    public String getExceptionMessage() {
+        return exceptionMessage;
+    }
+
+}</code></pre><h4 id="返回结果封装"><a href="#返回结果封装" class="headerlink" title="返回结果封装"></a>返回结果封装</h4><pre><code>@Data
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Result&lt;T&gt; {
 
@@ -201,6 +224,33 @@ public final class Result&lt;T&gt; {
         result.setMessage(ResultEnum.doSuccess.getMessage());
         result.data = data;
         return result;
+    }
+
+}</code></pre><h4 id="返回码枚举类"><a href="#返回码枚举类" class="headerlink" title="返回码枚举类"></a>返回码枚举类</h4><pre><code>public enum ResultEnum {
+
+    doSuccess(true, &quot;artastic-10000&quot;, &quot;成功&quot;),
+    doFailed(false, &quot;artastic-10001&quot;, &quot;失败&quot;),
+
+    private final Boolean success;
+    private final String code;
+    private final String message;
+
+    ResultEnum(Boolean success, String code, String message) {
+        this.success = success;
+        this.code = code;
+        this.message = message;
+    }
+
+    public Boolean getSuccess() {
+        return success;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getMessage() {
+        return message;
     }
 
 }</code></pre>
