@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/myicon.jpg">
+  <link rel="icon" type="image/png" href="/img/myicon.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="author" content="YI ZI">
+  <meta name="keywords" content="">
+  <title>mongotemplate ~ BLOG</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+  
+  <link rel="stylesheet" href="/css/main.css"  >
+
+  
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>紫衣的BLOG</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">主页</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">足迹</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">归档</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">标签</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/mybg.jpg')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              <p class="mt-3">星期一, 十一月 25日 2019, 5:03 下午</p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <h4 id="mongotemplate"><a href="#mongotemplate" class="headerlink" title="mongotemplate"></a>mongotemplate</h4><h5 id="pom-xml"><a href="#pom-xml" class="headerlink" title="pom.xml"></a>pom.xml</h5><pre><code>&lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-data-mongodb&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre><h5 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h5><p><code>spring.data.mongodb.uri=mongodb://xxxx:27017/xxxx</code></p>
+<h5 id="使用MongoTemplate查询"><a href="#使用MongoTemplate查询" class="headerlink" title="使用MongoTemplate查询"></a>使用MongoTemplate查询</h5><ul>
+<li>单条件</li>
+</ul>
+<p><code>Query query = Query.query(Criteria.where(&quot;id&quot;).is(&quot;1&quot;));</code></p>
+<ul>
+<li>or &amp; and</li>
+</ul>
+<pre><code>Criteria criteria = new Criteria();
+
+criteria.orOperator(
+Criteria.where(&quot;title&quot;).is(&quot;a&quot;),
+Criteria.where(&quot;name&quot;).is(&quot;b&quot;));
+
+criteria.andOperator(
+Criteria.where(&quot;time&quot;).ge(start),
+Criteria.where(&quot;time&quot;).is(end));
+Query query = new Query(criteria);</code></pre><h5 id="一个字段多约束需要andOperator"><a href="#一个字段多约束需要andOperator" class="headerlink" title="一个字段多约束需要andOperator"></a>一个字段多约束需要andOperator</h5><ul>
+<li>sort</li>
+</ul>
+<pre><code>Query query = new Query();
+Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC,&quot;id&quot;));
+query.with(sort);</code></pre><h5 id="2-x后是Sort-by"><a href="#2-x后是Sort-by" class="headerlink" title="2.x后是Sort.by"></a>2.x后是Sort.by</h5><ul>
+<li>分页</li>
+</ul>
+<pre><code>Query query = new Query();
+query.skip(1).limit(3);</code></pre><ul>
+<li>update</li>
+</ul>
+<pre><code>Update update = new Update();
+update.set(&quot;name&quot;,&quot;a&quot;);
+update.set(&quot;title&quot;,&quot;b&quot;);
+UpdateResult wr = mongoTemplate.updateFirst(query, update, collect.class);</code></pre><h5 id="ne为不等于"><a href="#ne为不等于" class="headerlink" title="ne为不等于"></a>ne为不等于</h5><h5 id="not为字段不存在"><a href="#not为字段不存在" class="headerlink" title="not为字段不存在"></a>not为字段不存在</h5><ul>
+<li>正则匹配查询</li>
+</ul>
+<pre><code>query.addCriteria(Criteria.where(&quot;key&quot;).regex(&quot;.*?\\&quot; + value + &quot;.*&quot;)</code></pre><ul>
+<li>分次批量拉取数据 不用分页 因为分页到后期会很慢</li>
+</ul>
+<pre><code>/**
+     * 获取id后的某一时间段内的size个的任务绩效
+     * @param id  （mongo中存储的id）
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    public &lt;T extends PerformanceEntity&gt; List&lt;T&gt; getTaskPerformanceList(String id, Date startTime, Date endTime, Class&lt;T&gt; t) {
+        return getTaskPerformanceList(size, id, startTime, endTime, t);
+    }
+
+    /**
+     * 获取id后的某一时间段内的size个的标注/质检任务绩效
+     * @param size
+     * @return
+     */
+    public &lt;T extends PerformanceEntity&gt; List&lt;T&gt; getTaskPerformanceList(int size, String id, Date startTime, Date endTime, Class&lt;T&gt; t) {
+        Query query = new Query();
+        Criteria criteria = new Criteria();
+        criteria.andOperator(Criteria.where(CREATE_TIME).gte(startTime), Criteria.where(CREATE_TIME).lt(endTime));
+        query.addCriteria(criteria);
+        ObjectId objectId;
+        if (StringUtils.isNotBlank(id)) {
+            objectId = new ObjectId(id);
+            query.addCriteria(Criteria.where(ID).gt(objectId));
+        }
+        query.with(Sort.by(Sort.Direction.ASC, ID));
+        query.limit(size);
+        return mongoTemplate.find(query, t);
+    }</code></pre><h5 id="id第一次传null"><a href="#id第一次传null" class="headerlink" title="id第一次传null"></a>id第一次传null</h5>
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/spring%20boot">spring boot</a>
+                  &nbsp;
+                
+                  <a class="hover-with-bg" href="/categories/mongotemplate">mongotemplate</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/spring%20boot">spring boot</a>
+              
+                <a class="hover-with-bg" href="/tags/mongotemplate">mongotemplate</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <script src="https://utteranc.es/client.js"
+          repo="ziyiyizi/ziyiyizi.github.io"
+          issue-term="pathname"
+  
+          label="utterances"
+    
+          theme="github-light"
+          crossorigin="anonymous"
+          async>
+  </script>
+
+
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+  <script src="/js/lazyload.js" ></script>
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "mongotemplate&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script>
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) || (/Safari/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent))) {
+      $("#background").css("background-attachment", "scroll");
+    }
+  </script>
+
+</body>
+</html>

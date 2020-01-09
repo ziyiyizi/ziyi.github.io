@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/myicon.jpg">
+  <link rel="icon" type="image/png" href="/img/myicon.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="author" content="YI ZI">
+  <meta name="keywords" content="">
+  <title>BLOG</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+  
+  <link rel="stylesheet" href="/css/main.css"  >
+
+  
+</head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>紫衣的BLOG</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">主页</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">足迹</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">归档</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">标签</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/mybg.jpg')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="fa fa-angle-down scroll-down-arrow"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-md">
+        <div class="py-5 z-depth-3" id="board">
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/01/09/PostStartClass/" target="_blank">
+          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="springboot项目启动后执行的类" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/01/09/PostStartClass/">
+        <p class="h4 index-header">springboot项目启动后执行的类</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">springboot项目启动后执行的类@Component
+@Slf4j
+@EnableBinding(PerformanceOutput.class)
+/**
+ * 据实践 使用stream发送第一条消息均会失败 因此在启动后发送一条无效消息 以确保之后的消息不会出现此问题
+ */
+public class AfterServiceStartRunner implements ApplicationRunner {
+
+    @Autowired
+    private PerformanceOutput performanceOutput;
+
+    /**
+     * 会在服务启动完成后立即执行
+     */
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        performanceOutput.output().send(MessageBuilderUtil.buildMessage(&quot;performance已启动&quot;, &quot;</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-09&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/spring%20boot">spring boot</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/spring%20boot">spring boot</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/01/09/springboot%20redis/" target="_blank">
+          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="springboot redis" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/01/09/springboot%20redis/">
+        <p class="h4 index-header">springboot redis</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">springboot redispropertiesspring.redis.database=0
+spring.redis.host=xxx
+spring.redis.port=6379
+spring.redis.password=pom&lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
+        &lt;/dependency&gt;use@Resource
+private StringRedisTemplate stringRedisTemplate;
+
+stringRedisTemplate.opsForValue().set(AccountConst.TRANSACTION_ID + transactionId, TransactionalMessageStatus.commit.getMes</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-09&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/spring%20boot">spring boot</a>&nbsp;
+          
+            <a href="/categories/redis">redis</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/spring%20boot">spring boot</a>&nbsp;
+          
+            <a href="/tags/redis">redis</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/01/07/flyway%E9%9B%86%E6%88%90/" target="_blank">
+          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="flyway集成" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/01/07/flyway%E9%9B%86%E6%88%90/">
+        <p class="h4 index-header">flyway集成</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">flyway集成
+引入pom依赖
+
+&lt;dependency&gt;
+            &lt;groupId&gt;org.flywaydb&lt;/groupId&gt;
+            &lt;artifactId&gt;flyway-core&lt;/artifactId&gt;
+            &lt;version&gt;6.1.0&lt;/version&gt;
+        &lt;/dependency&gt;
+properties 可有
+
+# 设为false，不对已经执行的sql进行内容校验
+spring.flyway.validate-on-migrate=false
+resource文件夹下新加db文件夹 在db文件夹下新建migration文件夹 在migration文件夹下新建sql初始脚本 命名格式”VyyMMddHHmm__init.sql” 如下
+
+USE `label_datastore`;
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+
+CREATE TABLE IF </div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-07&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/spring%20boot">spring boot</a>&nbsp;
+          
+            <a href="/categories/flyway">flyway</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/spring%20boot">spring boot</a>&nbsp;
+          
+            <a href="/tags/flyway">flyway</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/01/02/%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF/" target="_blank">
+          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="事务消息" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/01/02/%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF/">
+        <p class="h4 index-header">事务消息</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">Transactional Message
+在微服务架构中，我们常常使用异步化的手段来提升系统的吞吐量和解耦系统，而构建异步架构最常用的手段就是使用消息队列(MQ)，那异步架构要怎样实现数据一致性呢？事务消息是不可或缺的一环。
+
+作用事务消息实现了消息生产者本地事务执行与消息发送的原子性，保证了消息生产者本地事务处理成功与消息发送成功的最终一致。
+一个场景
+订单系统：生成订单记录 -&gt; MQ -&gt; 积分系统：增加积分
+
+
+先发送MQ消息：这个明显是不行的，因为如果消息发送成功，而订单创建失败的话是没办法把消息收回来的
+
+先创建订单记录：如果订单创建成功后MQ消息发送失败抛出异常，因为两个操作都在本地事务中所以订单数据是可以回滚的。这个方案看似没问题，但是网络是不可靠的。如果 MQ 的响应因为网络原因没有收到，所以在面对不确定的结果只好进行回滚；但是 MQ 端又确实是收到了这条消息的，只是回给客户端的响应丢失了。这会导致发送端回滚，而接收端执行业务导致不一致。
+
+
+事务消息原理{F19453, width=800}
+主要的逻辑分为两个流程：
+
+事务消息发送及提交：
+
+发送ha</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-02&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/spring%20cloud">spring cloud</a>&nbsp;
+          
+            <a href="/categories/spring%20cloud%20stream">spring cloud stream</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/spring%20cloud%20stream">spring cloud stream</a>&nbsp;
+          
+            <a href="/tags/spring%20cloud">spring cloud</a>&nbsp;
+          
+            <a href="/tags/rocketmq">rocketmq</a>&nbsp;
+          
+            <a href="/tags/%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF">事务消息</a>&nbsp;
+          
+            <a href="/tags/aliyunmq">aliyunmq</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2019/12/26/lombok%E6%B3%A8%E8%A7%A3/" target="_blank">
+          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="lombok注解" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/12/26/lombok%E6%B3%A8%E8%A7%A3/">
+        <p class="h4 index-header">lombok注解</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">常用的lombok注解
+@Data
+
+
+包含了@ToString @EqualsAndHashCode @Getter @Setter@ToString等可使用callSuper=true来引入父类属性 用exclude来排除属性
+
+
+@Value
+
+跟@Data差不多 但所有属性会为final
+
+
+@NoArgsConstructor
+
+无参构造器 可用access = AccessLevel.PRIVATE来标识这是个私有构造器
+
+
+@AllArgsConstructor
+
+@Accessors(chain = true)
+
+对象链式构造
+
+
+@Builder
+
+@Slf4J
+
+
+idea使用lombokplugins 安装lombok插件
+pom引入依赖&lt;dependency&gt;
+        &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+        &lt;artifactId&gt;lombok&lt;/artifactId&gt;
+        &lt;version&gt;1.18.10&lt;/ver</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-12-26&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/spring%20boot">spring boot</a>&nbsp;
+          
+            <a href="/categories/spring%20lombok">spring lombok</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/spring%20boot">spring boot</a>&nbsp;
+          
+            <a href="/tags/lombok">lombok</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2019/12/11/springcloud%20stream/" target="_blank">
+          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="spring cloud stream" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/12/11/springcloud%20stream/">
+        <p class="h4 index-header">spring cloud stream</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">spring cloud stream一个构建消息驱动微服务的框架springcloud stream架构
+应用程序通过通道(channels): inputs(相当于消费者consumer，它是从队列中接收消息的) 或者 outputs(相当于生产者producer，它是从队列中发送消息的) 来与 Spring Cloud Stream 中binder 交互，binder 负责与消息中间件交互。通道通过指定中间件的Binder实现与外部代理连接。业务开发者不再关注具体消息中间件，只需关注Binder对应用程序提供的抽象概念来使用消息中间件实现业务即可。
+通过使用Spring Integration来连接消息代理中间件以实现消息事件驱动。Spring Cloud Stream 为一些供应商的消息中间件产品提供了个性化的自动化配置实现，引用了发布-订阅、消费组、分区的三个核心概念。
+
+notes: 消息的发布（Publish）和订阅（Subscribe）是事件驱动的经典模式。Spring Cloud Stream 的数据交互也是基于这个思想。生产者把消息通过某个 destination </div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-12-11&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/spring%20cloud">spring cloud</a>&nbsp;
+          
+            <a href="/categories/spring%20cloud%20stream">spring cloud stream</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/spring%20cloud%20stream">spring cloud stream</a>&nbsp;
+          
+            <a href="/tags/mq">mq</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2019/11/25/mongotemplate/" target="_blank">
+          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="mongotemplate" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/11/25/mongotemplate/">
+        <p class="h4 index-header">mongotemplate</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">mongotemplatepom.xml&lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-data-mongodb&lt;/artifactId&gt;
+&lt;/dependency&gt;配置spring.data.mongodb.uri=mongodb://xxxx:27017/xxxx
+使用MongoTemplate查询
+单条件
+
+Query query = Query.query(Criteria.where(&quot;id&quot;).is(&quot;1&quot;));
+
+or &amp; and
+
+Criteria criteria = new Criteria();
+
+criteria.orOperator(
+Criteria.where(&quot;title&quot;).is(&quot;a&quot;),
+Criteria.where</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-11-25&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/spring%20boot">spring boot</a>&nbsp;
+          
+            <a href="/categories/mongotemplate">mongotemplate</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/spring%20boot">spring boot</a>&nbsp;
+          
+            <a href="/tags/mongotemplate">mongotemplate</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2019/11/25/mybatis-plus/" target="_blank">
+          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="mybatis plus" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/11/25/mybatis-plus/">
+        <p class="h4 index-header">mybatis plus</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">Mybatis Plus引入依赖&lt;dependency&gt;
+        &lt;groupId&gt;com.baomidou&lt;/groupId&gt;
+        &lt;artifactId&gt;mybatis-plus-boot-starter&lt;/artifactId&gt;
+        &lt;version&gt;3.2.0&lt;/version&gt;
+&lt;/dependency&gt;yml配置文件spring.datasource.url=jdbc:mysql://xxxx:3306/xxxx?allowMultiQueries=true
+spring.datasource.username=root
+spring.datasource.password=xxxx启动类加上MapperScan注解@MapperScan(&quot;com.baomidou.mybatisplus.samples.quickstart.mapper&quot;)
+编写实体类@Data
+public abstract class BaseSqlEn</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-11-25&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/spring%20boot">spring boot</a>&nbsp;
+          
+            <a href="/categories/mybatis%20plus">mybatis plus</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/spring%20boot">spring boot</a>&nbsp;
+          
+            <a href="/tags/mybatis%20plus">mybatis plus</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2019/11/12/devtools/" target="_blank">
+          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="devtools" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/11/12/devtools/">
+        <p class="h4 index-header">devtools</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">devtools的使用####原理
+
+ide在发现代码有更改之后，重新启动应用，但是速度比手动停止后再启动更快。深层原理是使用了两个ClassLoader，一个Classloader加载那些不会改变的类（第三方Jar包），另一个ClassLoader加载会更改的类，称为restart ClassLoader。这样在有代码更改的时候，原来的restart ClassLoader 被丢弃，重新创建一个restart ClassLoader，由于需要加载的类相比较少，所以实现了较快的重启时间。即devtools会监听classpath下的文件变动，并且会立即重启应用（发生在保存时机）
+
+不生效路径默认情况下，/META-INF/maven，/META-INF/resources，/resources，/static，/templates，/public这些文件夹下的文件修改不会使应用重启，但是会重新加载（devtools内嵌了一个LiveReload server，当资源发生改变时，浏览器刷新
+
+可以使用spring.devtools.restart.exclude属性来自定义排除的资源。例</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-11-12&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/spring%20boot">spring boot</a>&nbsp;
+          
+            <a href="/categories/devtools">devtools</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/spring%20boot">spring boot</a>&nbsp;
+          
+            <a href="/tags/devtools">devtools</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2019/11/06/Effective%20JAVA%E7%AC%94%E8%AE%B0/" target="_blank">
+          <img src="/img/mybg.jpg" srcset="/img/loading.gif" alt="Effective Java" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/11/06/Effective%20JAVA%E7%AC%94%E8%AE%B0/">
+        <p class="h4 index-header">Effective Java</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">Effective Java note考虑用静态工厂方法代替构造器考虑用bulider模式通过私有构造器强化不可实例化的能力通过enum类型强化单例属性覆盖hashCode时总要覆盖equals复合优于继承接口优于抽象用函数对象表示策略enum代替int常量坚持使用override注解慎用可变参数精确答案避免使用float和double 使用int long BigDecimal通过接口引用对象executor和task优先于线程并发工具优先于wait和notify</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-11-06&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/java">java</a>&nbsp;
+          
+            <a href="/categories/notes">notes</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/java">java</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+
+
+  <nav aria-label="index posts navigation">
+    <ul class="pagination pg-blue justify-content-center mt-5">
+      
+      
+        <li class="page-item">
+          <a class="page-link" href="/page/2/#board">下一页</a>
+        </li>
+      
+    </ul>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "to be continue&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script>
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) || (/Safari/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent))) {
+      $("#background").css("background-attachment", "scroll");
+    }
+  </script>
+
+</body>
+</html>

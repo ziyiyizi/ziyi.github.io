@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/myicon.jpg">
+  <link rel="icon" type="image/png" href="/img/myicon.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="author" content="YI ZI">
+  <meta name="keywords" content="">
+  <title>spring cloud stream ~ BLOG</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+  
+  <link rel="stylesheet" href="/css/main.css"  >
+
+  
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>紫衣的BLOG</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">主页</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">足迹</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">归档</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">标签</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/mybg.jpg')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              <p class="mt-3">星期三, 十二月 11日 2019, 2:21 下午</p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <h1 id="spring-cloud-stream"><a href="#spring-cloud-stream" class="headerlink" title="spring cloud stream"></a>spring cloud stream</h1><h6 id="一个构建消息驱动微服务的框架"><a href="#一个构建消息驱动微服务的框架" class="headerlink" title="一个构建消息驱动微服务的框架"></a>一个构建消息驱动微服务的框架</h6><h3 id="springcloud-stream架构"><a href="#springcloud-stream架构" class="headerlink" title="springcloud stream架构"></a>springcloud stream架构</h3><p><img src="https://images2018.cnblogs.com/blog/1202638/201805/1202638-20180528204400011-1996551371.png" srcset="/img/loading.gif" alt=""></p>
+<p>应用程序通过通道(channels): inputs(相当于消费者consumer，它是从队列中接收消息的) 或者 outputs(相当于生产者producer，它是从队列中发送消息的) 来与 Spring Cloud Stream 中binder 交互，binder 负责与消息中间件交互。通道通过指定中间件的Binder实现与外部代理连接。业务开发者不再关注具体消息中间件，只需关注Binder对应用程序提供的抽象概念来使用消息中间件实现业务即可。</p>
+<p>通过使用Spring Integration来连接消息代理中间件以实现消息事件驱动。Spring Cloud Stream 为一些供应商的消息中间件产品提供了个性化的自动化配置实现，引用了发布-订阅、消费组、分区的三个核心概念。</p>
+<blockquote>
+<p>notes: 消息的发布（Publish）和订阅（Subscribe）是事件驱动的经典模式。Spring Cloud Stream 的数据交互也是基于这个思想。生产者把消息通过某个 destination 广播出去。其他的微服务，通过订阅特定 destination 来获取广播的消息来触发业务的进行。这种模式，极大的降低了生产者与消费者之间的耦合。即使有新的应用的引入，也不需要破坏当前系统的整体结构。</p>
+</blockquote>
+<h2 id="SpringCloud-Stream消息驱动优缺点"><a href="#SpringCloud-Stream消息驱动优缺点" class="headerlink" title="SpringCloud Stream消息驱动优缺点"></a>SpringCloud Stream消息驱动优缺点</h2><h3 id="解耦合"><a href="#解耦合" class="headerlink" title="解耦合"></a>解耦合</h3><p>消息中间件的架构不同。比方说RabbitMQ和Kafka，RabbitMQ有exchange，kafka有Topic，partitions分区，这些中间件的差异性导致我们实际项目开发给我们造成了一定的困扰，我们如果用了两个消息队列的其中一种，后面的业务需求，要往另外一种消息队列进行迁移，这时候很多东西改，因为它跟我们的系统耦合了。这时候springcloud stream给我们提供了一种解耦合的方式。</p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>集成的mq较少 目前仅有rabbitmq和kafka rocketmq未完全集成</p>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><h3 id="一个简单的配置-以阿里云控制台rocketmq为例"><a href="#一个简单的配置-以阿里云控制台rocketmq为例" class="headerlink" title="一个简单的配置 以阿里云控制台rocketmq为例"></a>一个简单的配置 以阿里云控制台rocketmq为例</h3><ul>
+<li>pom依赖 使用最新的release 低版本的配置没最新的全</li>
+</ul>
+<pre><code>&lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-stream-rocketmq&lt;/artifactId&gt;
+            &lt;version&gt;0.2.2.RELEASE&lt;/version&gt;
+        &lt;/dependency&gt;</code></pre><ul>
+<li>properties</li>
+</ul>
+<blockquote>
+<p>notes: aliyun控制台的rocketmq tcp公网连接配置</p>
+</blockquote>
+<pre><code>mq.instance-id=MQ_INST_1734053594575120_BbwSzZdg
+spring.cloud.stream.default-binder=rocketmq
+spring.cloud.stream.rocketmq.binder.name-server=MQ_INST_1734053594575120_BbwSzZdg.mq-internet-access.mq-internet.aliyuncs.com:80
+spring.cloud.stream.rocketmq.binder.access-key=xxx
+spring.cloud.stream.rocketmq.binder.secret-key=xxx
+
+#普通消息生产者
+#相当于topic 需要先在控制台创建account这个topic
+spring.cloud.stream.bindings.output.destination=${mq.instance-id}%account
+
+#消费者
+spring.cloud.stream.bindings.input.destination=${mq.instance-id}%account
+#分组 需要现在控制台创建GID-ACCOUNT这个group
+spring.cloud.stream.bindings.input.group=${mq.instance-id}%GID-ACCOUNT</code></pre><ul>
+<li>消费者</li>
+</ul>
+<pre><code>@EnableBinding(AccountInput.class)
+@Slf4j
+/**
+ * 实例消费者
+ * 可在service上使用@EnableBinding绑定一个input channels接口
+ * 再在方法上使用@StreamListener监听一个input channel即可接受消息
+ * 至于input channel订阅的topic tag在properties文件配置
+ */
+public class AccountConsumer {
+
+    /**
+     * 消费者消费消息
+     */
+    @StreamListener(AccountInput.INPUT)
+    public void receive(Message&lt;String&gt; message) {
+        log.info(&quot;接收到消费信息&quot;);
+        log.info(message.getPayload());
+        log.info(message.getHeaders().toString());
+        log.info(&quot;【SpringCloud Stream】StreamListener.stream={}&quot;, JSON.toJSONString(message));
+    }
+}</code></pre><ul>
+<li>生产者</li>
+</ul>
+<pre><code>@EnableBinding(AccountOutput.class)
+public class AccountProducer {
+
+    @Autowired
+    private AccountOutput accountOutput;
+
+    /**
+     * 生产者生产消息
+     */
+    public boolean send(Object obj) {
+        return accountOutput.output().send(buildMessage(obj));
+    }
+
+    private Message buildMessage(Object obj) {
+        return MessageBuilder.withPayload(JSON.toJSONString(obj))
+                .build();
+    }
+}</code></pre><ul>
+<li>生产者 消费者channels就不列出惹 使用@Input或@Output绑定channels即可</li>
+</ul>
+<h2 id="概念解析"><a href="#概念解析" class="headerlink" title="概念解析"></a>概念解析</h2><h3 id="binder"><a href="#binder" class="headerlink" title="binder"></a>binder</h3><p>通过定义binder作为中间层，实现了应用程序与消息中间件(Middleware)细节之间的隔离。通过向应用程序暴露统一的通道，使得应用程序不需要再考虑各种不同的消息中间件的实现。当需要更换其他消息中间件产品时，需要做的就是修改binder的配置而不需要修改任何应用逻辑。甚至可以任意的改变中间件的类型而不需要修改一行代码。</p>
+<p>为构造Binding提供了 2 个方法，分别是 bindConsumer 和 bindProducer ，它们分别用于构造生产者和消费者。Binder使Spring Cloud Stream应用程序可以灵活地连接到中间件。</p>
+<h3 id="binding"><a href="#binding" class="headerlink" title="binding"></a>binding</h3><p>Binding 是连接应用程序跟消息中间件的桥梁，用于消息的消费和生产，由binder创建。</p>
+<h3 id="Input"><a href="#Input" class="headerlink" title="@Input"></a>@Input</h3><h4 id="实例-1"><a href="#实例-1" class="headerlink" title="实例"></a>实例</h4><pre><code>public interface Consumer {
+    @Input(&quot;input&quot;)
+    SubscribableChannel input();
+}</code></pre><h4 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h4><ul>
+<li>用于接收消息</li>
+<li>为每个binding生成channel实例</li>
+<li>指定channel名称</li>
+<li>在spring容器中生成一个名为input，类型为SubscribableChannel的bean</li>
+<li>在spring容器中生成一个类，实现Consumer接口。</li>
+</ul>
+<h3 id="output"><a href="#output" class="headerlink" title="@output"></a>@output</h3><p>类似@input 用于生产消息</p>
+<h3 id="InboundChannelAdapter"><a href="#InboundChannelAdapter" class="headerlink" title="@InboundChannelAdapter"></a>@InboundChannelAdapter</h3><p>让定义的方法生产消息</p>
+<pre><code>@Bean
+@InboundChannelAdapter(value = Source.OUTPUT,
+        poller = @Poller(fixedDelay = &quot;10&quot;, maxMessagesPerPoll = &quot;1&quot;))
+public MessageSource&lt;String&gt; test() {
+    return () -&gt; new GenericMessage&lt;&gt;(&quot;Hello Spring Cloud Stream&quot;);
+}</code></pre><blockquote>
+<p>用 InboundChannelAdapter 注解的方法上即使有参数也没用。即下面test方法不要有参数。</p>
+</blockquote>
+<ul>
+<li>fixedDelay：多少毫秒发送1次</li>
+<li>maxMessagesPerPoll：一次发送几条消息。</li>
+</ul>
+<h3 id="ServiceActivator"><a href="#ServiceActivator" class="headerlink" title="@ServiceActivator"></a>@ServiceActivator</h3><p>表示方法能够处理消息或消息有效内容，监听input消息，用方法体的代码处理，然后输出到output中。</p>
+<h4 id="例如消息异常处理"><a href="#例如消息异常处理" class="headerlink" title="例如消息异常处理"></a>例如消息异常处理</h4><pre><code>#这里set input channel订阅的destination及所在的group
+@ServiceActivator(inputChannel = &quot;input-destination.input-group.errors&quot;, outputChannel = &quot;xxx&quot;)
+    public Object handleError(ErrorMessage message) {
+        Throwable throwable = message.getPayload();
+        log.error(&quot;截获异常message:{}&quot;, throwable.getMessage());
+        Message&lt;?&gt; originalMessage = message.getOriginalMessage();
+        if (null != originalMessage) {
+            log.info(&quot;原始消息体 = {}&quot;, new String((byte[]) originalMessage.getPayload()));
+        }
+        return &quot;xxx&quot;;
+    }</code></pre><h3 id="Transformer"><a href="#Transformer" class="headerlink" title="@Transformer"></a>@Transformer</h3><p>和 ServiceActivator 类似，表示方法能够转换消息，消息头，或消息有效内容</p>
+<h3 id="Processor-消息中转站"><a href="#Processor-消息中转站" class="headerlink" title="Processor 消息中转站"></a>Processor 消息中转站</h3><p>spring-cloud-stream给我们提供了一个Processor接口，用于将消息处理后再发送出去，相当于一个消息中转站</p>
+<p>从源码可看出Processor扩展了Source(生产者channels)和Sink(消费者Channels)。</p>
+<pre><code>public interface Processor extends Source, Sink {
+}</code></pre><h4 id="仍是rocketmq为例（rocketmq里只要是消息接收者都需要group）"><a href="#仍是rocketmq为例（rocketmq里只要是消息接收者都需要group）" class="headerlink" title="仍是rocketmq为例（rocketmq里只要是消息接收者都需要group）"></a>仍是rocketmq为例（rocketmq里只要是消息接收者都需要group）</h4><ul>
+<li>生产者 properties</li>
+</ul>
+<p><code>spring.cloud.stream.bindings.output.destination=${mq.instance-id}%account</code></p>
+<ul>
+<li>中转者 properties</li>
+</ul>
+<pre><code>spring.cloud.stream.bindings.output.destination=${mq.instance-id}%account-trans
+spring.cloud.stream.bindings.input.destination=${mq.instance-id}%account</code></pre><pre><code>@Slf4j
+@EnableBinding(Processor.class)
+public class TransFormService {
+    @ServiceActivator(inputChannel = Processor.INPUT, outputChannel = Processor.OUTPUT)
+    public Object transform(Object payload){
+        log.info(&quot;消息中转站：{}&quot;, payload);
+        return payload;
+    }
+}</code></pre><ul>
+<li>接收者</li>
+</ul>
+<p><code>spring.cloud.stream.bindings.input.destination=${mq.instance-id}%account-trans</code></p>
+<h3 id="Consumer-Groups"><a href="#Consumer-Groups" class="headerlink" title="Consumer Groups"></a>Consumer Groups</h3><p>防止同一个事件被重复消费，只要把这些应用放置于同一个 “group” 中，就能够保证消息只会被一个group其中的一个应用消费一次。</p>
+<blockquote>
+<p>rocketmq里消费者是一定有分组的 如<code>spring.cloud.stream.bindings.input.group=${mq.instance-id}%GID-ACCOUNT</code></p>
+</blockquote>
+<h3 id="消息分区-partition"><a href="#消息分区-partition" class="headerlink" title="消息分区 partition"></a>消息分区 partition</h3><blockquote>
+<p>Spring Cloud Stream对给定应用的多个实例之间分隔数据予以支持。一个或者多个生产者应用实例给多个消费者应用实例发送消息并确保相同特征的数据被同一消费者实例处理。</p>
+</blockquote>
+<p>也就是说Spring Cloud Stream可以根据分区分配算法将相同特征的消息（比如id  % 2 = 1）分配给同一个实例消费。</p>
+<blockquote>
+<p>notes: Spring Cloud Stream对分割的进程实例实现进行了抽象。使得Spring Cloud Stream 为不具备分区功能的消息中间件（RabbitMQ）也增加了分区功能扩展。</p>
+</blockquote>
+<ul>
+<li>消费者</li>
+</ul>
+<pre><code>spring.cloud.stream.binginds.input.consumer.partitioned=true
+#分区数量
+spring.cloud.stream.instance-count=2</code></pre><ul>
+<li>生产者<pre><code>#分区的主键，例如payload.id只是一个对象的id用于做为Key
+spring.cloud.stream.bindings.output.producer.partitionKeyExpression=payload.id
+#Key和分区数量进行取模去分配消息，这里分区数量配置为2
+spring.cloud.stream.bindings.output.producer.partitionCount=2</code></pre></li>
+</ul>
+<h3 id="返回确认ack"><a href="#返回确认ack" class="headerlink" title="返回确认ack"></a>返回确认ack</h3><p>使用@SendTo注解 或使用消息中转的方式亦可</p>
+<pre><code>@StreamListener(&quot;input-channel&quot;)
+@SendTo(&quot;output-channel&quot;)
+public Object receiveFromInput(Object payload){
+        return &quot;ack&quot;;
+    }</code></pre><h3 id="stream-消息过滤"><a href="#stream-消息过滤" class="headerlink" title="stream 消息过滤"></a>stream 消息过滤</h3><ul>
+<li>使用condition 使用所有mq</li>
+</ul>
+<pre><code>#producer
+MessageBuilder.setHeader(&quot;service-header&quot;, &quot;mycondition&quot;).build();
+#consumer
+@StreamListener(value = Sink.INPUT, condition = &quot;headers[&#39;service-header&#39;]==&#39;mycondition&#39;&quot;)</code></pre><ul>
+<li>使用tag 只适用rocketmq</li>
+</ul>
+<pre><code>#producer
+MessageBuilder.setHeader(RocketMQHeaders.TAGS, &quot;deduction&quot;).build();
+MessageBuilder.setHeader(RocketMQHeaders.TAGS, &quot;withdraw&quot;).build();
+#consumer properties
+spring.cloud.stream.rocketmq.bindings.input.consumer.tags= deduction||withdraw</code></pre><ul>
+<li>使用sql过滤 rocketmq</li>
+</ul>
+<blockquote>
+<p>首先要确认开启了rocketmq的sql过滤</p>
+</blockquote>
+<pre><code>#producer
+MessageBuilder.setHeader(&quot;amount&quot;, &quot;100&quot;).build();
+#consumer properties
+spring.cloud.stream.rocketmq.bindings.input.consumer.sql=&quot;amount&gt;=100&quot;</code></pre><p>###</p>
+<p>官网: <a href="https://spring.io/projects/spring-cloud-stream" target="_blank" rel="noopener">https://spring.io/projects/spring-cloud-stream</a></p>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/spring%20cloud">spring cloud</a>
+                  &nbsp;
+                
+                  <a class="hover-with-bg" href="/categories/spring%20cloud%20stream">spring cloud stream</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/spring%20cloud%20stream">spring cloud stream</a>
+              
+                <a class="hover-with-bg" href="/tags/mq">mq</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <script src="https://utteranc.es/client.js"
+          repo="ziyiyizi/ziyiyizi.github.io"
+          issue-term="pathname"
+  
+          label="utterances"
+    
+          theme="github-light"
+          crossorigin="anonymous"
+          async>
+  </script>
+
+
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+  <script src="/js/lazyload.js" ></script>
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "spring cloud stream&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script>
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) || (/Safari/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent))) {
+      $("#background").css("background-attachment", "scroll");
+    }
+  </script>
+
+</body>
+</html>
